@@ -177,6 +177,7 @@ int		AxesOn;					// != 0 means to draw the axes
 int		DebugOn;				// != 0 means to print debugging info
 int		DepthCueOn;				// != 0 means to use intensity depth cueing
 GLuint	BoxList;				// object display list
+GLuint	SphereList;				// object display list
 int		MainWindow;				// window id for main graphics window
 float	Scale;					// scaling factor
 int		WhichColor;				// index into Colors[ ]
@@ -385,8 +386,8 @@ Display( )
     
     // draw the current object:
     
-    glCallList( BoxList );
-    
+//    glCallList( BoxList );
+    glCallList(SphereList);
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -684,6 +685,43 @@ InitGraphics( )
 }
 
 
+// http://web.engr.oregonstate.edu/~mjb/cs550/Handouts/DisplayLists.2pp.pdf
+// http://math.hws.edu/graphicsbook/source/glut/color-cube-of-spheres.c
+void sphere(double radius, int slices, int stacks) {
+    int i;
+    int j;
+    
+    for (j = 0; j < stacks; j++) {
+        double latitude1 = (3.14/stacks) * j - 3.14/2;
+        double latitude2 = (3.14/stacks) * (j+1) - 3.14/2;
+        double sinLatitude1 = sin(latitude1);
+        double cosLatitude1 = cos(latitude1);
+        double sinLatitude2 = sin(latitude2);
+        double cosLatitude2 = cos(latitude2);
+        
+        glBegin(GL_QUAD_STRIP);
+        
+        for (i = 0; i <= slices; i++) {
+            double longitude = (2*3.14/slices) * i;
+            double sinLong = sin(longitude);
+            double cosLong = cos(longitude);
+            double x1 = cosLong * cosLatitude1;
+            double y1 = sinLong * cosLatitude1;
+            double z1 = sinLatitude1;
+            double x2 = cosLong * cosLatitude2;
+            double y2 = sinLong * cosLatitude2;
+            double z2 = sinLatitude2;
+            
+            glColor3fv(&Colors[WhichColor][i%8]);
+            glNormal3d(x2,y2,z2);
+            glVertex3d(radius*x2,radius*y2,radius*z2);
+            glNormal3d(x1,y1,z1);
+            glVertex3d(radius*x1,radius*y1,radius*z1);
+        }
+        glEnd();
+    }
+}
+
 // initialize the display lists that will not change:
 // (a display list is a way to store opengl commands in
 //  memory so that they can be played back efficiently at a later time
@@ -706,11 +744,14 @@ InitLists( )
     
     glColor3f( 0., 0., 1. );
     glNormal3f( 0., 0.,  1. );
+    
 				glVertex3f( -dx, -dy,  dz );
 				glVertex3f(  dx, -dy,  dz );
 				glVertex3f(  dx,  dy,  dz );
 				glVertex3f( -dx,  dy,  dz );
     
+    // Yellow
+    glColor3f(255., 255., 0.);
     glNormal3f( 0., 0., -1. );
 				glTexCoord2f( 0., 0. );
 				glVertex3f( -dx, -dy, -dz );
@@ -728,6 +769,8 @@ InitLists( )
 				glVertex3f(  dx,  dy, -dz );
 				glVertex3f(  dx,  dy,  dz );
     
+    // Cyan
+    glColor3f(0., 255., 255.);
     glNormal3f( -1., 0., 0. );
 				glVertex3f( -dx, -dy,  dz );
 				glVertex3f( -dx,  dy,  dz );
@@ -741,6 +784,8 @@ InitLists( )
 				glVertex3f(  dx,  dy, -dz );
 				glVertex3f( -dx,  dy, -dz );
     
+    // Gray
+    glColor3f(0.5, 0.5, 0.5);
     glNormal3f( 0., -1., 0. );
 				glVertex3f( -dx, -dy,  dz );
 				glVertex3f( -dx, -dy, -dz );
@@ -750,6 +795,15 @@ InitLists( )
     glEnd( );
     
     glEndList( );
+    
+    // Project 1 - create the object:
+    
+    SphereList = glGenLists(1);
+    glNewList(SphereList, GL_COMPILE);
+    
+    sphere(1, 100, 10);
+    
+    glEndList();
     
     
     // create the axes:

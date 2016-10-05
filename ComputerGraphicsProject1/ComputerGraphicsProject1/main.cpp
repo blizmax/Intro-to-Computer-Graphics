@@ -685,6 +685,7 @@ InitGraphics( )
 }
 
 
+// References
 // http://web.engr.oregonstate.edu/~mjb/cs550/Handouts/DisplayLists.2pp.pdf
 // http://math.hws.edu/graphicsbook/source/glut/color-cube-of-spheres.c
 void sphere(double radius, int slices, int stacks) {
@@ -703,8 +704,10 @@ void sphere(double radius, int slices, int stacks) {
         
         for (i = 0; i <= slices; i++) {
             double longitude = (2*3.14/slices) * i;
+            
             double sinLong = sin(longitude);
             double cosLong = cos(longitude);
+            
             double x1 = cosLong * cosLatitude1;
             double y1 = sinLong * cosLatitude1;
             double z1 = sinLatitude1;
@@ -718,6 +721,7 @@ void sphere(double radius, int slices, int stacks) {
             glNormal3d(x1,y1,z1);
             glVertex3d(radius*x1,radius*y1,radius*z1);
         }
+        
         glEnd();
     }
 }

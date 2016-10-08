@@ -3,6 +3,9 @@
 #include <ctype.h>
 
 #define _USE_MATH_DEFINES
+#define BLADE_RADIUS	 1.0
+#define BLADE_WIDTH		 0.4
+
 #include <math.h>
 
 #ifdef WIN32
@@ -14,7 +17,6 @@
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
-
 
 //	This is a sample OpenGL / GLUT program
 //
@@ -177,6 +179,8 @@ int		AxesOn;					// != 0 means to draw the axes
 int		DebugOn;				// != 0 means to print debugging info
 int		DepthCueOn;				// != 0 means to use intensity depth cueing
 GLuint	BoxList;				// object display list
+GLuint  HeliList;               // helicopter display list
+GLuint  BladeList;              // blade display list
 int		MainWindow;				// window id for main graphics window
 float	Scale;					// scaling factor
 int		WhichColor;				// index into Colors[ ]
@@ -184,6 +188,7 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
+#include "heli550.h"
 
 // function prototypes:
 
@@ -386,6 +391,8 @@ Display( )
     // draw the current object:
     
     glCallList( BoxList );
+    glCallList(HeliList);
+    glCallList(BladeList);
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -697,6 +704,54 @@ InitLists( )
     
     // create the object:
     
+    HeliList = glGenLists(1);
+    glNewList(HeliList, GL_COMPILE);
+    
+    int i;
+    struct edge *ep;
+    struct point *p0, *p1;
+    
+    glPushMatrix( );
+    glTranslatef( 0., -1., 0. );
+    glRotatef(  97.,   0., 1., 0. );
+    glRotatef( -15.,   0., 0., 1. );
+    
+    // Yellow
+    glColor3f(255., 255., 0.);
+    glBegin( GL_LINES );
+    for( i=0, ep = Heliedges; i < Helinedges; i++, ep++ )
+    {
+        p0 = &Helipoints[ ep->p0 ];
+        p1 = &Helipoints[ ep->p1 ];
+        glVertex3f( p0->x, p0->y, p0->z );
+        glVertex3f( p1->x, p1->y, p1->z );
+    }
+    glEnd( );
+    glPopMatrix( );
+    
+    glEnd();
+    glEndList();
+    
+    
+    BladeList = glGenLists(1);
+    glNewList(BladeList, GL_COMPILE);
+    
+    // draw the helicopter blade with radius BLADE_RADIUS and
+    //	width BLADE_WIDTH centered at (0.,0.,0.) in the XY plane
+    
+    glBegin( GL_TRIANGLES );
+    glVertex2f(  BLADE_RADIUS,  BLADE_WIDTH/2. );
+    glVertex2f(  0., 0. );
+    glVertex2f(  BLADE_RADIUS, -BLADE_WIDTH/2. );
+    
+    glVertex2f( -BLADE_RADIUS, -BLADE_WIDTH/2. );
+    glVertex2f(  0., 0. );
+    glVertex2f( -BLADE_RADIUS,  BLADE_WIDTH/2. );
+    glEnd( );
+    glEndList();
+    
+    /*
+    
     BoxList = glGenLists( 1 );
     glNewList( BoxList, GL_COMPILE );
     
@@ -755,6 +810,7 @@ InitLists( )
     glEnd( );
     
     glEndList( );
+    */
 
     // create the axes:
     

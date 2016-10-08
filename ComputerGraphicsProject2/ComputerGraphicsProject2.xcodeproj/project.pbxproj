@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		161BCB451DA9A8F800751F77 /* heli550.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = heli550.h; path = ../heli550.h; sourceTree = "<group>"; };
 		16FE32751DA85FB500DB3F7D /* ComputerGraphicsProject2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ComputerGraphicsProject2; sourceTree = BUILT_PRODUCTS_DIR; };
 		16FE32781DA85FB500DB3F7D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		16FE32801DA85FC300DB3F7D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -64,6 +65,7 @@
 		16FE32771DA85FB500DB3F7D /* ComputerGraphicsProject2 */ = {
 			isa = PBXGroup;
 			children = (
+				161BCB451DA9A8F800751F77 /* heli550.h */,
 				16FE32781DA85FB500DB3F7D /* main.cpp */,
 			);
 			path = ComputerGraphicsProject2;
@@ -262,6 +264,7 @@
 				16FE327E1DA85FB500DB3F7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

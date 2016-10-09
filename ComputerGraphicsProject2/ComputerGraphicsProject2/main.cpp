@@ -3,8 +3,8 @@
 #include <ctype.h>
 
 #define _USE_MATH_DEFINES
-#define BLADE_RADIUS	 1.0
-#define BLADE_WIDTH		 0.4
+#define TOP_BLADE_RADIUS	 5.0
+#define TOP_BLADE_WIDTH		 0.4
 
 #include <math.h>
 
@@ -179,6 +179,7 @@ int		AxesOn;					// != 0 means to draw the axes
 int		DebugOn;				// != 0 means to print debugging info
 int		DepthCueOn;				// != 0 means to use intensity depth cueing
 GLuint	BoxList;				// object display list
+GLuint  SphereList;             // sphere display list
 GLuint  HeliList;               // helicopter display list
 GLuint  BladeList;              // blade display list
 int		MainWindow;				// window id for main graphics window
@@ -342,6 +343,7 @@ Display( )
     // set the eye position, look-at position, and up-vector:
     
     gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
+//    gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
     
     
     // rotate the scene:
@@ -391,6 +393,7 @@ Display( )
     // draw the current object:
     
     glCallList( BoxList );
+    glCallList(SphereList);
     glCallList(HeliList);
     glCallList(BladeList);
     
@@ -689,6 +692,47 @@ InitGraphics( )
     
 }
 
+// References
+// http://web.engr.oregonstate.edu/~mjb/cs550/Handouts/DisplayLists.2pp.pdf
+// http://math.hws.edu/graphicsbook/source/glut/color-cube-of-spheres.c
+void sphere(double radius, int slices, int stacks) {
+    int i;
+    int j;
+    
+    for (j = 0; j < stacks; j++) {
+        double latitude1 = (3.14/stacks) * j - 3.14/2;
+        double latitude2 = (3.14/stacks) * (j+1) - 3.14/2;
+        double sinLatitude1 = sin(latitude1);
+        double cosLatitude1 = cos(latitude1);
+        double sinLatitude2 = sin(latitude2);
+        double cosLatitude2 = cos(latitude2);
+        
+        glBegin(GL_QUAD_STRIP);
+        
+        for (i = 0; i <= slices; i++) {
+            double longitude = (2*3.14/slices) * i;
+            
+            double sinLong = sin(longitude);
+            double cosLong = cos(longitude);
+            
+            double x1 = cosLong * cosLatitude1;
+            double y1 = sinLong * cosLatitude1;
+            double z1 = sinLatitude1 - 12;
+            double x2 = cosLong * cosLatitude2;
+            double y2 = sinLong * cosLatitude2;
+            double z2 = sinLatitude2 - 12;
+            
+            glColor3fv(&Colors[WhichColor][i%8]);
+            glNormal3d(x2,y2,z2);
+            glVertex3d(radius*x2,radius*y2,radius*z2);
+            glNormal3d(x1,y1,z1);
+            glVertex3d(radius*x1,radius*y1,radius*z1);
+        }
+        
+        glEnd();
+    }
+}
+
 // initialize the display lists that will not change:
 // (a display list is a way to store opengl commands in
 //  memory so that they can be played back efficiently at a later time
@@ -702,8 +746,7 @@ InitLists( )
     float dz = BOXSIZE / 2.f;
     glutSetWindow( MainWindow );
     
-    // create the object:
-    
+    // Create helicopter object:
     HeliList = glGenLists(1);
     glNewList(HeliList, GL_COMPILE);
     
@@ -716,7 +759,7 @@ InitLists( )
     glRotatef(  97.,   0., 1., 0. );
     glRotatef( -15.,   0., 0., 1. );
     
-    // Yellow
+    // Set helicopter color
     glColor3f(255., 255., 0.);
     glBegin( GL_LINES );
     for( i=0, ep = Heliedges; i < Helinedges; i++, ep++ )
@@ -732,88 +775,29 @@ InitLists( )
     glEnd();
     glEndList();
     
-    
+    // Create top blade object
     BladeList = glGenLists(1);
     glNewList(BladeList, GL_COMPILE);
     
-    // draw the helicopter blade with radius BLADE_RADIUS and
-    //	width BLADE_WIDTH centered at (0.,0.,0.) in the XY plane
-    
     glBegin( GL_TRIANGLES );
-    glVertex2f(  BLADE_RADIUS,  BLADE_WIDTH/2. );
-    glVertex2f(  0., 0. );
-    glVertex2f(  BLADE_RADIUS, -BLADE_WIDTH/2. );
+    glVertex3f(  TOP_BLADE_RADIUS, 2.9,  TOP_BLADE_WIDTH/2. - 2);
+    glVertex3f(  0., 2.9, -2.);
+    glVertex3f(  TOP_BLADE_RADIUS, 2.9, -TOP_BLADE_WIDTH/2. - 2);
     
-    glVertex2f( -BLADE_RADIUS, -BLADE_WIDTH/2. );
-    glVertex2f(  0., 0. );
-    glVertex2f( -BLADE_RADIUS,  BLADE_WIDTH/2. );
+    glVertex3f( -TOP_BLADE_RADIUS, 2.9, -TOP_BLADE_WIDTH/2. - 2);
+    glVertex3f(  0., 2.9, -2.);
+    glVertex3f( -TOP_BLADE_RADIUS, 2.9, TOP_BLADE_WIDTH/2. - 2);
     glEnd( );
     glEndList();
     
-    /*
-    
-    BoxList = glGenLists( 1 );
-    glNewList( BoxList, GL_COMPILE );
-    
-    glBegin( GL_QUADS );
-    
-    glColor3f( 0., 0., 1. );
-    glNormal3f( 0., 0.,  1. );
-    
-				glVertex3f( -dx, -dy,  dz );
-				glVertex3f(  dx, -dy,  dz );
-				glVertex3f(  dx,  dy,  dz );
-				glVertex3f( -dx,  dy,  dz );
-    
-    // Yellow
-    glColor3f(255., 255., 0.);
-    glNormal3f( 0., 0., -1. );
-				glTexCoord2f( 0., 0. );
-				glVertex3f( -dx, -dy, -dz );
-				glTexCoord2f( 0., 1. );
-				glVertex3f( -dx,  dy, -dz );
-				glTexCoord2f( 1., 1. );
-				glVertex3f(  dx,  dy, -dz );
-				glTexCoord2f( 1., 0. );
-				glVertex3f(  dx, -dy, -dz );
-    
-    glColor3f( 1., 0., 0. );
-    glNormal3f(  1., 0., 0. );
-				glVertex3f(  dx, -dy,  dz );
-				glVertex3f(  dx, -dy, -dz );
-				glVertex3f(  dx,  dy, -dz );
-				glVertex3f(  dx,  dy,  dz );
-    
-    // Cyan
-    glColor3f(0., 255., 255.);
-    glNormal3f( -1., 0., 0. );
-				glVertex3f( -dx, -dy,  dz );
-				glVertex3f( -dx,  dy,  dz );
-				glVertex3f( -dx,  dy, -dz );
-				glVertex3f( -dx, -dy, -dz );
-    
-    glColor3f( 0., 1., 0. );
-    glNormal3f( 0.,  1., 0. );
-				glVertex3f( -dx,  dy,  dz );
-				glVertex3f(  dx,  dy,  dz );
-				glVertex3f(  dx,  dy, -dz );
-				glVertex3f( -dx,  dy, -dz );
-    
-    // Gray
-    glColor3f(0.5, 0.5, 0.5);
-    glNormal3f( 0., -1., 0. );
-				glVertex3f( -dx, -dy,  dz );
-				glVertex3f( -dx, -dy, -dz );
-				glVertex3f(  dx, -dy, -dz );
-				glVertex3f(  dx, -dy,  dz );
-    
-    glEnd( );
-    
-    glEndList( );
-    */
+    // Create sphere
+    SphereList = glGenLists(1);
+    glNewList(SphereList, GL_COMPILE);
+    sphere(1, 100, 10);
+    glEndList();
 
     // create the axes:
-    
+
     AxesList = glGenLists( 1 );
     glNewList( AxesList, GL_COMPILE );
     glLineWidth( AXES_WIDTH );

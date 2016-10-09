@@ -5,6 +5,8 @@
 #define _USE_MATH_DEFINES
 #define TOP_BLADE_RADIUS	 5.0
 #define TOP_BLADE_WIDTH		 0.4
+#define REAR_BLADE_RADIUS	 1.5
+#define REAR_BLADE_WIDTH     0.4
 
 #include <math.h>
 
@@ -181,7 +183,8 @@ int		DepthCueOn;				// != 0 means to use intensity depth cueing
 GLuint	BoxList;				// object display list
 GLuint  SphereList;             // sphere display list
 GLuint  HeliList;               // helicopter display list
-GLuint  BladeList;              // blade display list
+GLuint  TopBladeList;           // top blade display list
+GLuint  RearBladeList;          // rear blade display list
 int		MainWindow;				// window id for main graphics window
 float	Scale;					// scaling factor
 int		WhichColor;				// index into Colors[ ]
@@ -342,8 +345,8 @@ Display( )
     
     // set the eye position, look-at position, and up-vector:
     
-    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
-//    gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
+//    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
+    gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
     
     
     // rotate the scene:
@@ -395,7 +398,8 @@ Display( )
     glCallList( BoxList );
     glCallList(SphereList);
     glCallList(HeliList);
-    glCallList(BladeList);
+    glCallList(TopBladeList);
+    glCallList(RearBladeList);
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -776,8 +780,9 @@ InitLists( )
     glEndList();
     
     // Create top blade object
-    BladeList = glGenLists(1);
-    glNewList(BladeList, GL_COMPILE);
+    TopBladeList = glGenLists(1);
+    glNewList(TopBladeList, GL_COMPILE);
+    glColor3f(0., 255., 255.);
     
     glBegin( GL_TRIANGLES );
     glVertex3f(  TOP_BLADE_RADIUS, 2.9,  TOP_BLADE_WIDTH/2. - 2);
@@ -787,6 +792,23 @@ InitLists( )
     glVertex3f( -TOP_BLADE_RADIUS, 2.9, -TOP_BLADE_WIDTH/2. - 2);
     glVertex3f(  0., 2.9, -2.);
     glVertex3f( -TOP_BLADE_RADIUS, 2.9, TOP_BLADE_WIDTH/2. - 2);
+    glEnd( );
+    glEndList();
+    
+    // Create rear blade object
+    RearBladeList = glGenLists(1);
+    glNewList(RearBladeList, GL_COMPILE);
+    glColor3f(0., 255., 255.);
+    glRotatef(  90.,   0., 0., 1. );
+
+    glBegin( GL_TRIANGLES );
+    glVertex3f(  REAR_BLADE_RADIUS + 2.5, 0,  REAR_BLADE_WIDTH/2. + 9);
+    glVertex3f(  2.5, 0, 9.);
+    glVertex3f(  REAR_BLADE_RADIUS + 2.5, 0, -REAR_BLADE_WIDTH/2. + 9);
+    
+    glVertex3f( -REAR_BLADE_RADIUS + 2.5, 0, -REAR_BLADE_WIDTH/2. + 9);
+    glVertex3f(  2.5, 0, 9.);
+    glVertex3f( -REAR_BLADE_RADIUS + 2.5, 0, REAR_BLADE_WIDTH/2. + 9);
     glEnd( );
     glEndList();
     

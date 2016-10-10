@@ -286,8 +286,8 @@ Animate( )
     glutSetWindow( MainWindow );
     
     int ms = glutGet( GLUT_ELAPSED_TIME );	// milliseconds
-    ms  %=  10000;
-    Time = (float)ms  /  (float)10000;        // [ 0., 1. )
+    ms  %=  5000;
+    Time = (float)ms  /  (float)5000;        // [ 0., 1. )
     
     glutPostRedisplay( );
 }
@@ -405,14 +405,21 @@ Display( )
     glCallList(SphereList);
     glCallList(HeliList);
     
-
+    // Draw top blade and rotate
+    glPushMatrix();
     glTranslatef(0., 2.9, -2);
     glRotatef((GLfloat)360. * Time, 0., 1., 0.);
     glTranslatef(0., -2.9, 2);
-
-
     glCallList(TopBladeList);
+    glPopMatrix();
+    
+    // Draw rear blade and rotate
+    glPushMatrix();
+    glTranslatef(2.5, 2.5, 9.);
+    glRotatef((GLfloat)360. * Time * 3, 1., 0., 0.);
+    glTranslatef(-2.5, -2.5, -9);
     glCallList(RearBladeList);
+    glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
     

@@ -191,6 +191,8 @@ int		WhichColor;				// index into Colors[ ]
 int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
+int     BladeAngle;             // Angle incremented in Animate()
+float   Time;                   // Project 2 variable for animation
 
 #include "heli550.h"
 
@@ -282,6 +284,11 @@ Animate( )
     // force a call to Display( ) next time it is convenient:
     
     glutSetWindow( MainWindow );
+    
+    int ms = glutGet( GLUT_ELAPSED_TIME );	// milliseconds
+    ms  %=  10000;
+    Time = (float)ms  /  (float)10000;        // [ 0., 1. )
+    
     glutPostRedisplay( );
 }
 
@@ -354,7 +361,6 @@ Display( )
     glRotatef( (GLfloat)Yrot, 0., 1., 0. );
     glRotatef( (GLfloat)Xrot, 1., 0., 0. );
     
-    
     // uniformly scale the scene:
     
     if( Scale < MINSCALE )
@@ -398,6 +404,13 @@ Display( )
     glCallList( BoxList );
     glCallList(SphereList);
     glCallList(HeliList);
+    
+
+    glTranslatef(0., 2.9, -2);
+    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
+    glTranslatef(0., -2.9, 2);
+
+
     glCallList(TopBladeList);
     glCallList(RearBladeList);
     
@@ -679,7 +692,7 @@ InitGraphics( )
     glutTabletButtonFunc( NULL );
     glutMenuStateFunc( NULL );
     glutTimerFunc( -1, NULL, 0 );
-    glutIdleFunc( NULL );
+    glutIdleFunc( Animate );
     
     // init glew (a window must be open to do this):
     
@@ -792,6 +805,14 @@ InitLists( )
     glVertex3f( -TOP_BLADE_RADIUS, 2.9, -TOP_BLADE_WIDTH/2. - 2);
     glVertex3f(  0., 2.9, -2.);
     glVertex3f( -TOP_BLADE_RADIUS, 2.9, TOP_BLADE_WIDTH/2. - 2);
+    
+//    glPushMatrix();
+//    glTranslatef(250,250,0.0); // 3. Translate to the object's position.
+//    glRotatef(BladeAngle,0.0,0.0,1.0); // 2. Rotate the object.
+//    glTranslatef(-250,-250,0.0); // 1. Translate to the origin.
+//    // Draw the object
+//    glPopMatrix();
+    
     glEnd( );
     glEndList();
     

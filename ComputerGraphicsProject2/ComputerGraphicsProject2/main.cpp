@@ -191,7 +191,6 @@ int		WhichColor;				// index into Colors[ ]
 int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
-int     BladeAngle;             // Angle incremented in Animate()
 float   Time;                   // Project 2 variable for animation
 
 #include "heli550.h"
@@ -354,6 +353,7 @@ Display( )
     
 //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
+//    gluLookAt( -0.4, 1.8, -4.9,     0., 3., -10.,     0., 1., 0. );
     
     
     // rotate the scene:
@@ -445,7 +445,7 @@ Display( )
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     glColor3f( 1., 1., 1. );
-    DoRasterString( 5., 5., 0., "Text That Doesn't" );
+    DoRasterString( 5., 5., 0., "Brandon Lee" );
     
     
     // swap the double-buffered framebuffers:
@@ -813,13 +813,6 @@ InitLists( )
     glVertex3f(  0., 2.9, -2.);
     glVertex3f( -TOP_BLADE_RADIUS, 2.9, TOP_BLADE_WIDTH/2. - 2);
     
-//    glPushMatrix();
-//    glTranslatef(250,250,0.0); // 3. Translate to the object's position.
-//    glRotatef(BladeAngle,0.0,0.0,1.0); // 2. Rotate the object.
-//    glTranslatef(-250,-250,0.0); // 1. Translate to the origin.
-//    // Draw the object
-//    glPopMatrix();
-    
     glEnd( );
     glEndList();
     
@@ -867,6 +860,14 @@ Keyboard( unsigned char c, int x, int y )
     
     switch( c )
     {
+        case 'g':
+            printf("gg\n");
+            gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
+            break;
+        case 'h':
+            printf("hh\n");
+            gluLookAt( -0.4, 1.8, -4.9,     0., 3., -10.,     0., 1., 0. );
+            break;
         case 'o':
         case 'O':
             WhichProjection = ORTHO;

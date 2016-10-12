@@ -7,6 +7,7 @@
 #define TOP_BLADE_WIDTH		 0.4
 #define REAR_BLADE_RADIUS	 1.5
 #define REAR_BLADE_WIDTH     0.4
+#define MS_IN_THE_ANIMATION_CYCLE   5000
 
 #include <math.h>
 
@@ -192,6 +193,7 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 float   Time;                   // Project 2 variable for animation
+int     viewToggleState;        // Project 2 viewToggleState
 
 #include "heli550.h"
 
@@ -285,8 +287,8 @@ Animate( )
     glutSetWindow( MainWindow );
     
     int ms = glutGet( GLUT_ELAPSED_TIME );	// milliseconds
-    ms  %=  5000;
-    Time = (float)ms  /  (float)5000;        // [ 0., 1. )
+    ms  %=  MS_IN_THE_ANIMATION_CYCLE;
+    Time = (float)ms  /  (float)MS_IN_THE_ANIMATION_CYCLE;        // [ 0., 1. )
     
     glutPostRedisplay( );
 }
@@ -350,11 +352,13 @@ Display( )
     
     
     // set the eye position, look-at position, and up-vector:
-    
-//    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
-    gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
-//    gluLookAt( -0.4, 1.8, -4.9,     0., 3., -10.,     0., 1., 0. );
-    
+    if (viewToggleState != 1) {
+        // Outer View
+        gluLookAt( 10., 10., 10.,     0., 0., 0.,     0., 1., 0. );
+    } else {
+        // Inner View
+        gluLookAt( -0.4, 1.8, -4.9,     0., 3., -10.,     0., 1., 0. );
+    }
     
     // rotate the scene:
     
@@ -405,6 +409,8 @@ Display( )
     glCallList(SphereList);
     glCallList(HeliList);
     
+    // PROJECT 2
+    
     // Draw top blade and rotate
     glPushMatrix();
     glTranslatef(0., 2.9, -2);
@@ -423,9 +429,9 @@ Display( )
     
     // draw some gratuitous text that just rotates on top of the scene:
     
-    glDisable( GL_DEPTH_TEST );
-    glColor3f( 0., 1., 1. );
-    DoRasterString( 0., 1., 0., "Text That Moves" );
+//    glDisable( GL_DEPTH_TEST );
+//    glColor3f( 0., 1., 1. );
+//    DoRasterString( 0., 1., 0., "Text That Moves" );
     
     
     // draw some gratuitous text that is fixed on the screen:
@@ -469,6 +475,14 @@ DoAxesMenu( int id )
     glutPostRedisplay( );
 }
 
+void
+switchView( int id )
+{
+    viewToggleState = id;
+    
+    glutSetWindow( MainWindow );
+    glutPostRedisplay( );
+}
 
 void
 DoColorMenu( int id )
@@ -605,6 +619,10 @@ InitMenus( )
     int axesmenu = glutCreateMenu( DoAxesMenu );
     glutAddMenuEntry( "Off",  0 );
     glutAddMenuEntry( "On",   1 );
+
+    int toggleViewMenu = glutCreateMenu( switchView );
+    glutAddMenuEntry( "InnerView",  1 );
+    glutAddMenuEntry( "OuterView",   0 );
     
     int depthcuemenu = glutCreateMenu( DoDepthMenu );
     glutAddMenuEntry( "Off",  0 );
@@ -625,11 +643,13 @@ InitMenus( )
     glutAddSubMenu(   "Projection",    projmenu );
     glutAddMenuEntry( "Reset",         RESET );
     glutAddSubMenu(   "Debug",         debugmenu);
+    glutAddSubMenu( "Toggle View",   toggleViewMenu );
     glutAddMenuEntry( "Quit",          QUIT );
     
     // attach the pop-up menu to the right mouse button:
     
-    glutAttachMenu( GLUT_RIGHT_BUTTON );
+//    glutAttachMenu( GLUT_RIGHT_BUTTON );
+    glutAttachMenu(GLUT_LEFT_BUTTON);
 }
 
 

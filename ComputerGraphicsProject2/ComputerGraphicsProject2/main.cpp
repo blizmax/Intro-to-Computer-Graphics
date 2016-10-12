@@ -620,6 +620,8 @@ InitMenus( )
     glutAddMenuEntry( "Off",  0 );
     glutAddMenuEntry( "On",   1 );
 
+    // Project 2
+    
     int toggleViewMenu = glutCreateMenu( switchView );
     glutAddMenuEntry( "InnerView",  1 );
     glutAddMenuEntry( "OuterView",   0 );
@@ -803,6 +805,9 @@ InitLists( )
     glRotatef(  97.,   0., 1., 0. );
     glRotatef( -15.,   0., 0., 1. );
     
+    
+    // Project 2
+    
     // Set helicopter color
     glColor3f(255., 255., 0.);
     glBegin( GL_LINES );
@@ -880,14 +885,6 @@ Keyboard( unsigned char c, int x, int y )
     
     switch( c )
     {
-        case 'g':
-            printf("gg\n");
-            gluLookAt( 0., 0., 10.,     0., 0., 0.,     0., 1., 0. );
-            break;
-        case 'h':
-            printf("hh\n");
-            gluLookAt( -0.4, 1.8, -4.9,     0., 3., -10.,     0., 1., 0. );
-            break;
         case 'o':
         case 'O':
             WhichProjection = ORTHO;

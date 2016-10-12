@@ -286,6 +286,8 @@ Animate( )
     
     glutSetWindow( MainWindow );
     
+    // Project 2
+    
     int ms = glutGet( GLUT_ELAPSED_TIME );	// milliseconds
     ms  %=  MS_IN_THE_ANIMATION_CYCLE;
     Time = (float)ms  /  (float)MS_IN_THE_ANIMATION_CYCLE;        // [ 0., 1. )
@@ -350,6 +352,7 @@ Display( )
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     
+    // Project 2
     
     // set the eye position, look-at position, and up-vector:
     if (viewToggleState != 1) {

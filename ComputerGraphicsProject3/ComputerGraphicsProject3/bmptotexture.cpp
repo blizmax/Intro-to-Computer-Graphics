@@ -6,7 +6,7 @@
 //  Copyright © 2016 Brandon Lee. All rights reserved.
 //
 
-#include <stdio.h>
+#include "bmptotexture.hpp"
 
 int	ReadInt( FILE * );
 short	ReadShort( FILE * );

@@ -184,6 +184,8 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
+#include "bmptotexture.hpp"
+#include "sphere.hpp"
 
 // function prototypes:
 

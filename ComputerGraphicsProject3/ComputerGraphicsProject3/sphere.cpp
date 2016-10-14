@@ -6,12 +6,7 @@
 //  Copyright © 2016 Brandon Lee. All rights reserved.
 //
 
-#include <stdio.h>
-#include <math.h>
-
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
+#include "sphere.hpp"
 
 bool	Distort;		// global -- true means to distort the texture
 

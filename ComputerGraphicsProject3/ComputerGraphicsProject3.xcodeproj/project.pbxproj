@@ -10,6 +10,8 @@
 		169981781DB059DC005A081B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169981771DB059DC005A081B /* main.cpp */; };
 		169981801DB05A73005A081B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1699817F1DB05A73005A081B /* OpenGL.framework */; };
 		169981821DB05A77005A081B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169981811DB05A77005A081B /* GLUT.framework */; };
+		169981871DB0627B005A081B /* bmptotexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169981861DB0627B005A081B /* bmptotexture.cpp */; };
+		169981891DB06294005A081B /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169981881DB06294005A081B /* sphere.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +31,8 @@
 		169981771DB059DC005A081B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1699817F1DB05A73005A081B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		169981811DB05A77005A081B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		169981861DB0627B005A081B /* bmptotexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bmptotexture.cpp; sourceTree = "<group>"; };
+		169981881DB06294005A081B /* sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				169981771DB059DC005A081B /* main.cpp */,
+				169981861DB0627B005A081B /* bmptotexture.cpp */,
+				169981881DB06294005A081B /* sphere.cpp */,
 			);
 			path = ComputerGraphicsProject3;
 			sourceTree = "<group>";
@@ -135,6 +141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				169981891DB06294005A081B /* sphere.cpp in Sources */,
+				169981871DB0627B005A081B /* bmptotexture.cpp in Sources */,
 				169981781DB059DC005A081B /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,4 +11,6 @@
 
 #include <stdio.h>
 
+unsigned char *BmpToTexture( char *filename, int *width, int *height );
+
 #endif /* bmptotexture_hpp */

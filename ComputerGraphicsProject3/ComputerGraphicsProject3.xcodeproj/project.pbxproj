@@ -35,6 +35,7 @@
 		1699818B1DB0692E005A081B /* sphere.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
 		1699818D1DB06AA0005A081B /* bmptotexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bmptotexture.cpp; sourceTree = "<group>"; };
 		1699818E1DB06AA0005A081B /* bmptotexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bmptotexture.hpp; sourceTree = "<group>"; };
+		169981901DB0CF59005A081B /* worldtex.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = worldtex.bmp; path = ../../../../Downloads/worldtex.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 		169981761DB059DC005A081B /* ComputerGraphicsProject3 */ = {
 			isa = PBXGroup;
 			children = (
+				169981901DB0CF59005A081B /* worldtex.bmp */,
 				169981771DB059DC005A081B /* main.cpp */,
 				1699818B1DB0692E005A081B /* sphere.hpp */,
 				1699818A1DB0692E005A081B /* sphere.cpp */,

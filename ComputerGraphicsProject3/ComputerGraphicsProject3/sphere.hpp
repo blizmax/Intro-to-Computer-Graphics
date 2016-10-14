@@ -16,4 +16,6 @@
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
 
+void MjbSphere( float radius, int slices, int stacks );
+
 #endif /* sphere_hpp */

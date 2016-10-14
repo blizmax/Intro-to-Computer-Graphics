@@ -184,6 +184,13 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
+// Project 3
+int     view;
+unsigned char *texture;
+int texWidth, texHeight;
+float distort = 0.;
+
+// Project 3
 #include "bmptotexture.hpp"
 #include "sphere.hpp"
 
@@ -271,6 +278,13 @@ Animate( )
 {
     // put animation stuff in here -- change some global variables
     // for Display( ) to find:
+    
+    // Project 3 - distort
+    distort += 0.5;
+    
+    if (distort >= 360.) {
+        distort = 0.;
+    }
     
     // force a call to Display( ) next time it is convenient:
     
@@ -384,10 +398,28 @@ Display( )
     
     glEnable( GL_NORMALIZE );
     
+    // Project 3 - Configure texture options
+    if (view > 0) {
+        glEnable(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    } else {
+        glDisable(GL_TEXTURE_2D);
+    }
+    
+    // Project 3 - Draw object
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+    
+    //TODO: Add sphere create function
+    MjbSphere( 1., 50, 50);
     
     // draw the current object:
     
-    glCallList( BoxList );
+//    glCallList( BoxList );
     
     
     // draw some gratuitous text that just rotates on top of the scene:
@@ -508,6 +540,16 @@ DoProjectMenu( int id )
     glutPostRedisplay( );
 }
 
+void
+DoViewMenu(int id)
+{
+    view = id;
+    distort = 0;
+    
+    glutSetWindow( MainWindow );
+    glutPostRedisplay( );
+}
+
 
 // use glut to display a string of characters using a raster font:
 
@@ -587,6 +629,12 @@ InitMenus( )
     glutAddMenuEntry( "Orthographic",  ORTHO );
     glutAddMenuEntry( "Perspective",   PERSP );
     
+    // Project 3 - Configure Menu
+    int textureMenu = glutCreateMenu( DoViewMenu );
+    glutAddMenuEntry( "Solid Color",  0 );
+    glutAddMenuEntry( "Textured",   1 );
+    glutAddMenuEntry("Distorted", 2);
+    
     int mainmenu = glutCreateMenu( DoMainMenu );
     glutAddSubMenu(   "Axes",          axesmenu);
     glutAddSubMenu(   "Colors",        colormenu);
@@ -594,6 +642,7 @@ InitMenus( )
     glutAddSubMenu(   "Projection",    projmenu );
     glutAddMenuEntry( "Reset",         RESET );
     glutAddSubMenu(   "Debug",         debugmenu);
+    glutAddSubMenu("Texture", textureMenu);
     glutAddMenuEntry( "Quit",          QUIT );
     
     // attach the pop-up menu to the right mouse button:
@@ -668,7 +717,7 @@ InitGraphics( )
     glutTabletButtonFunc( NULL );
     glutMenuStateFunc( NULL );
     glutTimerFunc( -1, NULL, 0 );
-    glutIdleFunc( NULL );
+    glutIdleFunc( Animate );
     
     // init glew (a window must be open to do this):
     
@@ -683,6 +732,8 @@ InitGraphics( )
     fprintf( stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
     
+    // Project 3 - Load Texture
+    texture = BmpToTexture("worldtex.bmp", &texWidth, &texHeight);
 }
 
 

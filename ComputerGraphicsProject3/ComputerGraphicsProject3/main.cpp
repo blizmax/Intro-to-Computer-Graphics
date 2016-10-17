@@ -647,7 +647,8 @@ InitMenus( )
     
     // attach the pop-up menu to the right mouse button:
     
-    glutAttachMenu( GLUT_RIGHT_BUTTON );
+//    glutAttachMenu( GLUT_RIGHT_BUTTON );
+    glutAttachMenu(GLUT_LEFT_BUTTON);
 }
 
 
@@ -733,7 +734,7 @@ InitGraphics( )
 #endif
     
     // Project 3 - Load Texture
-    texture = BmpToTexture("worldtex.bmp", &texWidth, &texHeight);
+    texture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject3/ComputerGraphicsProject3/worldtex.bmp", &texWidth, &texHeight);
 }
 
 

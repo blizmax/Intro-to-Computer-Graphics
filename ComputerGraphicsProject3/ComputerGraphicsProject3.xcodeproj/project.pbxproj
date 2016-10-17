@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		162B15A21DB5915500E34418 /* worldtex.bmp in Sources */ = {isa = PBXBuildFile; fileRef = 162B15A11DB5911800E34418 /* worldtex.bmp */; };
 		169981781DB059DC005A081B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169981771DB059DC005A081B /* main.cpp */; };
 		169981801DB05A73005A081B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1699817F1DB05A73005A081B /* OpenGL.framework */; };
 		169981821DB05A77005A081B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169981811DB05A77005A081B /* GLUT.framework */; };
@@ -15,18 +16,37 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		169981721DB059DC005A081B /* CopyFiles */ = {
+		162B159C1DB58F8F00E34418 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 7;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		162B159D1DB58F9400E34418 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		162B159E1DB58FAB00E34418 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		162B15A11DB5911800E34418 /* worldtex.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = worldtex.bmp; sourceTree = "<group>"; };
 		169981741DB059DC005A081B /* ComputerGraphicsProject3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ComputerGraphicsProject3; sourceTree = BUILT_PRODUCTS_DIR; };
 		169981771DB059DC005A081B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1699817F1DB05A73005A081B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -35,7 +55,6 @@
 		1699818B1DB0692E005A081B /* sphere.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
 		1699818D1DB06AA0005A081B /* bmptotexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bmptotexture.cpp; sourceTree = "<group>"; };
 		1699818E1DB06AA0005A081B /* bmptotexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bmptotexture.hpp; sourceTree = "<group>"; };
-		169981901DB0CF59005A081B /* worldtex.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = worldtex.bmp; path = ../../../../Downloads/worldtex.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +90,7 @@
 		169981761DB059DC005A081B /* ComputerGraphicsProject3 */ = {
 			isa = PBXGroup;
 			children = (
-				169981901DB0CF59005A081B /* worldtex.bmp */,
+				162B15A11DB5911800E34418 /* worldtex.bmp */,
 				169981771DB059DC005A081B /* main.cpp */,
 				1699818B1DB0692E005A081B /* sphere.hpp */,
 				1699818A1DB0692E005A081B /* sphere.cpp */,
@@ -99,7 +118,9 @@
 			buildPhases = (
 				169981701DB059DC005A081B /* Sources */,
 				169981711DB059DC005A081B /* Frameworks */,
-				169981721DB059DC005A081B /* CopyFiles */,
+				162B159C1DB58F8F00E34418 /* CopyFiles */,
+				162B159D1DB58F9400E34418 /* CopyFiles */,
+				162B159E1DB58FAB00E34418 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -150,6 +171,7 @@
 				1699818C1DB0692E005A081B /* sphere.cpp in Sources */,
 				169981781DB059DC005A081B /* main.cpp in Sources */,
 				1699818F1DB06AA0005A081B /* bmptotexture.cpp in Sources */,
+				162B15A21DB5915500E34418 /* worldtex.bmp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +298,7 @@
 				1699817D1DB059DC005A081B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

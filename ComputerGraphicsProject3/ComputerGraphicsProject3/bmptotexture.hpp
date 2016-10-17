@@ -10,6 +10,7 @@
 #define bmptotexture_hpp
 
 #include <stdio.h>
+#include <errno.h>
 
 unsigned char *BmpToTexture( char *filename, int *width, int *height );
 

@@ -60,6 +60,8 @@ BmpToTexture( char *filename, int *width, int *height )
     if( fp == NULL )
     {
         fprintf( stderr, "Cannot open Bmp file '%s'\n", filename );
+        perror("lmao");
+        printf("error number: %d", errno);
         return NULL;
     }
     

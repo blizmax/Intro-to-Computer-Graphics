@@ -184,6 +184,8 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
+
+
 // Project 3
 int     view;
 unsigned char *texture;
@@ -280,8 +282,7 @@ Animate( )
     // for Display( ) to find:
     
     // Project 3 - distort
-    distort += 0.5;
-    
+    distort += 1.;
     if (distort >= 360.) {
         distort = 0.;
     }
@@ -387,11 +388,11 @@ Display( )
     
     // possibly draw the axes:
     
-    if( AxesOn != 0 )
-    {
-        glColor3fv( &Colors[WhichColor][0] );
-        glCallList( AxesList );
-    }
+//    if( AxesOn != 0 )
+//    {
+//        glColor3fv( &Colors[WhichColor][0] );
+//        glCallList( AxesList );
+//    }
     
     
     // since we are using glScalef( ), be sure normals get unitized:
@@ -399,35 +400,35 @@ Display( )
     glEnable( GL_NORMALIZE );
     
     // Project 3 - Configure texture options
-    if (view > 0) {
-        glEnable(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    } else {
-        glDisable(GL_TEXTURE_2D);
+    
+    switch (view) {
+        case 0:
+            glDisable(GL_TEXTURE_2D);
+            break;
+        case 1: case 2:
+            glEnable(GL_TEXTURE_2D);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            break;
+        default:
+            break;
     }
     
     // Project 3 - Draw object
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
     
-    //TODO: Add sphere create function
-    MjbSphere( 1., 50, 50);
+    MjbSphere( 1., 50, 50, view, distort);
     
     // draw the current object:
-    
-//    glCallList( BoxList );
-    
     
     // draw some gratuitous text that just rotates on top of the scene:
     
     glDisable( GL_DEPTH_TEST );
     glColor3f( 0., 1., 1. );
-    DoRasterString( 0., 1., 0., "Text That Moves" );
-    
     
     // draw some gratuitous text that is fixed on the screen:
     //
@@ -446,8 +447,6 @@ Display( )
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     glColor3f( 1., 1., 1. );
-    DoRasterString( 5., 5., 0., "Text That Doesn't" );
-    
     
     // swap the double-buffered framebuffers:
     

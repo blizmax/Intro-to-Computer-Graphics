@@ -8,7 +8,7 @@
 
 #include "sphere.hpp"
 
-bool	Distort;		// global -- true means to distort the texture
+//bool	Distort;		// global -- true means to distort the texture
 
 struct point {
     float x, y, z;		// coordinates
@@ -40,7 +40,7 @@ DrawPoint( struct point *p )
 }
 
 void
-MjbSphere( float radius, int slices, int stacks )
+MjbSphere( float radius, int slices, int stacks, int view, float distort )
 {
     struct point top, bot;		// top, bottom points
     struct point *p;
@@ -81,10 +81,10 @@ MjbSphere( float radius, int slices, int stacks )
             p->nx = x;
             p->ny = y;
             p->nz = z;
-            if( Distort )
+            if( view == 2 )
             {
                 p->s = ( lng + M_PI    ) / ( 2.*M_PI );
-                p->t = ( lat + M_PI/2. ) / M_PI + Distort/360.;
+                p->t = ( lat + M_PI/2. ) / M_PI + distort/360.;
             }
             else
             {

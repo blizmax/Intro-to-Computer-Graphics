@@ -192,6 +192,11 @@ unsigned char *texture;
 int texWidth, texHeight;
 float distort = 0.;
 
+unsigned char *texture2;
+int texWidth2, texHeight2;
+
+unsigned char *textureFlag;
+
 // Project 3
 #include "bmptotexture.hpp"
 #include "sphere.hpp"
@@ -284,6 +289,11 @@ Animate( )
     // Project 3 - distort
     distort += 1.;
     if (distort >= 360.) {
+        if (textureFlag == texture) {
+            textureFlag = texture2;
+        }  else {
+            textureFlag = texture;
+        }
         distort = 0.;
     }
     
@@ -419,7 +429,7 @@ Display( )
     
     // Project 3 - Draw object
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureFlag);
     
     MjbSphere( 1., 50, 50, view, distort);
     
@@ -734,6 +744,8 @@ InitGraphics( )
     
     // Project 3 - Load Texture
     texture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject3/ComputerGraphicsProject3/worldtex.bmp", &texWidth, &texHeight);
+    
+    texture2 = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject3/ComputerGraphicsProject3/Bliss.bmp", &texWidth2, &texWidth2);
 }
 
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		162B15A21DB5915500E34418 /* worldtex.bmp in Sources */ = {isa = PBXBuildFile; fileRef = 162B15A11DB5911800E34418 /* worldtex.bmp */; };
+		162B15A41DB5DD4800E34418 /* Bliss.bmp in Sources */ = {isa = PBXBuildFile; fileRef = 162B15A31DB5DD4300E34418 /* Bliss.bmp */; };
 		169981781DB059DC005A081B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169981771DB059DC005A081B /* main.cpp */; };
 		169981801DB05A73005A081B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1699817F1DB05A73005A081B /* OpenGL.framework */; };
 		169981821DB05A77005A081B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169981811DB05A77005A081B /* GLUT.framework */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		162B15A11DB5911800E34418 /* worldtex.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = worldtex.bmp; sourceTree = "<group>"; };
+		162B15A31DB5DD4300E34418 /* Bliss.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = Bliss.bmp; sourceTree = "<group>"; };
 		169981741DB059DC005A081B /* ComputerGraphicsProject3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ComputerGraphicsProject3; sourceTree = BUILT_PRODUCTS_DIR; };
 		169981771DB059DC005A081B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1699817F1DB05A73005A081B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -90,6 +92,7 @@
 		169981761DB059DC005A081B /* ComputerGraphicsProject3 */ = {
 			isa = PBXGroup;
 			children = (
+				162B15A31DB5DD4300E34418 /* Bliss.bmp */,
 				162B15A11DB5911800E34418 /* worldtex.bmp */,
 				169981771DB059DC005A081B /* main.cpp */,
 				1699818B1DB0692E005A081B /* sphere.hpp */,
@@ -168,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				162B15A41DB5DD4800E34418 /* Bliss.bmp in Sources */,
 				1699818C1DB0692E005A081B /* sphere.cpp in Sources */,
 				169981781DB059DC005A081B /* main.cpp in Sources */,
 				1699818F1DB06AA0005A081B /* bmptotexture.cpp in Sources */,

@@ -187,8 +187,11 @@ int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 float   Time;                   // Project 4
 bool    Frozen;                 // Project 4
+bool    Light0On;               // Project 4
+bool    Light1On;               // Project 4
+bool    Light2On;               // Project 4
 
-float   White[] = {1.,1.,1.,1.};    // Project 4
+//float   White[] = {1.,1.,1.,1.};    // Project 4
 
 
 // function prototypes:
@@ -218,10 +221,6 @@ void	Axes( float );
 void	HsvRgb( float[3], float [3] );
 
 // Project 4
-float Dot(float [3], float [3]);
-void Cross(float [3], float [3], float [3]);
-float Unit(float [3], float [3]);
-
 float *MulArray3(float, float, float);
 float *MulArray3(float, float[3]);
 void setConfigurations(float, float, float, float);
@@ -229,35 +228,6 @@ void setPointLight(int, float, float, float, float, float, float);
 void setSpotLight(int, float, float, float, float, float, float, float, float, float);
 
 // Project 4
-float Dot( float v1[3], float v2[3] ) {
-    return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2];
-}
-
-void Cross( float v1[3], float v2[3], float vout[3] ) {
-    float tmp[3];
-    tmp[0] = v1[1]*v2[2] - v2[1]*v1[2];
-    tmp[1] = v2[0]*v1[2] - v1[0]*v2[2];
-    tmp[2] = v1[0]*v2[1] - v2[0]*v1[1];
-    vout[0] = tmp[0];
-    vout[1] = tmp[1];
-    vout[2] = tmp[2];
-}
-
-float Unit( float vin[3], float vout[3] ) {
-    float dist = vin[0]*vin[0] + vin[1]*vin[1] + vin[2]*vin[2];
-    if( dist > 0.0 ) {
-        dist = sqrt( dist );
-        vout[0] = vin[0] / dist;
-        vout[1] = vin[1] / dist;
-        vout[2] = vin[2] / dist;
-    } else {
-        vout[0] = vin[0];
-        vout[1] = vin[1];
-        vout[2] = vin[2];
-    }
-    return dist;
-}
-
 // Create array from three floats
 float *MulArray3( float a, float b, float c ) {
     static float array[4];
@@ -496,7 +466,41 @@ Display( )
     
     // Project 4 Lighting
     glEnable(GL_LIGHTING);
-    setPointLight(GL_LIGHT0, 0, 2, 0, 0, 0, 1);
+    
+    glPushMatrix();
+    if (Light0On) {
+        setPointLight(GL_LIGHT0, 1, 0, 0, 1, 0, 0);
+        glColor3f(1, 0, 0);
+        glTranslatef(1, 0, 0);
+        glutSolidSphere(0.1, 25, 25);
+    } else {
+        glDisable(GL_LIGHT0);
+    }
+    glPopMatrix();
+    
+    glPushMatrix();
+    if (Light1On) {
+        setPointLight(GL_LIGHT1, 0, 1, 0, 0, 1, 0);
+        glColor3f(0, 1, 0);
+        glTranslatef(0, 1, 0);
+        glutSolidSphere(0.1, 25, 25);
+    } else {
+        glDisable(GL_LIGHT1);
+    }
+    glPopMatrix();
+    
+    glPushMatrix();
+    if (Light2On) {
+        setPointLight(GL_LIGHT2, 0, 0, 1, 0, 0, 1);
+        glColor3f(0, 0, 1);
+        glTranslatef(0, 0, 1);
+        glutSolidSphere(0.1, 25, 25);
+    } else {
+        glDisable(GL_LIGHT2);
+    }
+    glPopMatrix();
+    
+    
     
     // Project 4
     glEnable( GL_TEXTURE_2D );
@@ -510,28 +514,24 @@ Display( )
     
     // Project 4
     
-//    glCallList( BoxList );
-//    glutSolidCube(1.0);
-//    glutSolidDodecahedron();
-    
     glPushMatrix();
-    glColor3f(255., 255., 0.);
-    glTranslatef(0., 2, -2);
-    glutSolidTeapot(0.5);
+        glColor3f(255., 255., 0.);
+        glTranslatef(0., 2, -2);
+        glutSolidTeapot(0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glColor3f(0, 255., 255.);
-    glTranslatef(0., -2, -2.);
-    glutSolidTeapot(0.5);
+        glColor3f(0, 255., 255.);
+        glTranslatef(0., -1., 2.);
+        glutSolidTeapot(0.5);
     glPopMatrix();
     
     glPushMatrix();
-    glColor3f(255., 0, 255.);
-    glTranslatef(1., -1., 0);
-    glRotatef((GLfloat)360. * Time, 1., 0., 0.);
-    glTranslatef(-1., 1., 0);
-    glutSolidTeapot(0.5);
+        glColor3f(255., 0, 255.);
+        glTranslatef(1., -1., 0);
+        glRotatef((GLfloat)360. * Time, 0., 1., 0.);
+        glTranslatef(-1., 1., 0);
+        glutSolidTeapot(0.5);
     glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
@@ -932,6 +932,34 @@ Keyboard( unsigned char c, int x, int y )
                 glutIdleFunc(Animate);
             }
             break;
+            
+        case '0':
+            Light0On = !Light0On;
+            if (Light0On) {
+                glEnable(GL_LIGHT0);
+            } else {
+                glDisable(GL_LIGHT0);
+            }
+            break;
+            
+        case '1':
+            Light1On = !Light1On;
+            if (Light1On) {
+                glEnable(GL_LIGHT1);
+            } else {
+                glDisable(GL_LIGHT1);
+            }
+            break;
+            
+        case '2':
+            Light2On = !Light2On;
+            if (Light2On) {
+                glEnable(GL_LIGHT2);
+            } else {
+                glDisable(GL_LIGHT2);
+            }
+            break;
+        
         case 'o':
         case 'O':
             WhichProjection = ORTHO;

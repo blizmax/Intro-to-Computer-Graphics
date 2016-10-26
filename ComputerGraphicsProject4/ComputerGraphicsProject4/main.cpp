@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define MS_IN_THE_ANIMATION_CYCLE   3000
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -183,6 +185,8 @@ int		WhichColor;				// index into Colors[ ]
 int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
+float   Time;                   // Project 4
+bool    Frozen;                 // Project 4
 
 
 // function prototypes:
@@ -273,6 +277,11 @@ Animate( )
     // force a call to Display( ) next time it is convenient:
     
     glutSetWindow( MainWindow );
+    
+    // Project 4
+    int ms = glutGet( GLUT_ELAPSED_TIME );	// milliseconds
+    ms  %=  MS_IN_THE_ANIMATION_CYCLE;
+    Time = (float)ms  /  (float)MS_IN_THE_ANIMATION_CYCLE;        // [ 0., 1. )
     glutPostRedisplay( );
 }
 
@@ -336,8 +345,9 @@ Display( )
     
     // set the eye position, look-at position, and up-vector:
     
-    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
-    
+    // Project 4
+    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
+    //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     
     // rotate the scene:
     
@@ -383,16 +393,47 @@ Display( )
     glEnable( GL_NORMALIZE );
     
     
+    // Project 4
+    glEnable( GL_TEXTURE_2D );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+    
     // draw the current object:
     
-    glCallList( BoxList );
+    // Project 4
     
+//    glCallList( BoxList );
+//    glutSolidCube(1.0);
+//    glutSolidDodecahedron();
+    
+    glPushMatrix();
+    glColor3f(255., 255., 0.);
+    glTranslatef(0., 2, -2);
+    glutSolidTeapot(0.5);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 255., 255.);
+    glTranslatef(0., -2, -2.);
+    glutSolidTeapot(0.5);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(255., 0, 255.);
+    glTranslatef(1., -1., 0);
+    glRotatef((GLfloat)360. * Time, 1., 0., 0.);
+    glTranslatef(-1., 1., 0);
+    glutSolidTeapot(0.5);
+    glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
     
     glDisable( GL_DEPTH_TEST );
     glColor3f( 0., 1., 1. );
-    DoRasterString( 0., 1., 0., "Text That Moves" );
+//    DoRasterString( 0., 1., 0., "Text That Moves" );
     
     
     // draw some gratuitous text that is fixed on the screen:
@@ -666,7 +707,9 @@ InitGraphics( )
     glutTabletButtonFunc( NULL );
     glutMenuStateFunc( NULL );
     glutTimerFunc( -1, NULL, 0 );
-    glutIdleFunc( NULL );
+    
+    // Project 4
+    glutIdleFunc( Animate );
     
     // init glew (a window must be open to do this):
     
@@ -773,6 +816,17 @@ Keyboard( unsigned char c, int x, int y )
     
     switch( c )
     {
+            
+        // Project 4
+        case 'f':
+        case 'F':
+            Frozen = !Frozen;
+            if (Frozen) {
+                glutIdleFunc(NULL);
+            } else {
+                glutIdleFunc(Animate);
+            }
+            break;
         case 'o':
         case 'O':
             WhichProjection = ORTHO;
@@ -897,6 +951,9 @@ Reset( )
     WhichColor = WHITE;
     WhichProjection = PERSP;
     Xrot = Yrot = 0.;
+    
+    // Project 4
+    Frozen = false;
 }
 
 

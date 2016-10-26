@@ -188,6 +188,8 @@ float	Xrot, Yrot;				// rotation angles in degrees
 float   Time;                   // Project 4
 bool    Frozen;                 // Project 4
 
+float   White[] = {1.,1.,1.,1.};    // Project 4
+
 
 // function prototypes:
 
@@ -214,6 +216,106 @@ void	Visibility( int );
 
 void	Axes( float );
 void	HsvRgb( float[3], float [3] );
+
+// Project 4
+float Dot(float [3], float [3]);
+void Cross(float [3], float [3], float [3]);
+float Unit(float [3], float [3]);
+
+float *MulArray3(float, float, float);
+float *MulArray3(float, float[3]);
+void setConfigurations(float, float, float, float);
+void setPointLight(int, float, float, float, float, float, float);
+void setSpotLight(int, float, float, float, float, float, float, float, float, float);
+
+// Project 4
+float Dot( float v1[3], float v2[3] ) {
+    return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2];
+}
+
+void Cross( float v1[3], float v2[3], float vout[3] ) {
+    float tmp[3];
+    tmp[0] = v1[1]*v2[2] - v2[1]*v1[2];
+    tmp[1] = v2[0]*v1[2] - v1[0]*v2[2];
+    tmp[2] = v1[0]*v2[1] - v2[0]*v1[1];
+    vout[0] = tmp[0];
+    vout[1] = tmp[1];
+    vout[2] = tmp[2];
+}
+
+float Unit( float vin[3], float vout[3] ) {
+    float dist = vin[0]*vin[0] + vin[1]*vin[1] + vin[2]*vin[2];
+    if( dist > 0.0 ) {
+        dist = sqrt( dist );
+        vout[0] = vin[0] / dist;
+        vout[1] = vin[1] / dist;
+        vout[2] = vin[2] / dist;
+    } else {
+        vout[0] = vin[0];
+        vout[1] = vin[1];
+        vout[2] = vin[2];
+    }
+    return dist;
+}
+
+// Create array from three floats
+float *MulArray3( float a, float b, float c ) {
+    static float array[4];
+    array[0] = a;
+    array[1] = b;
+    array[2] = c;
+    array[3] = 1.;
+    return array;
+}
+
+// Create array from multiplier and array
+float *MulArray3( float factor, float array0[3] ) {
+    static float array[4];
+    array[0] = factor * array0[0];
+    array[1] = factor * array0[1];
+    array[2] = factor * array0[2];
+    array[3] = 1.;
+    return array;
+}
+
+// Set material characteristics
+void setConfigurations(int ilight, float x, float y, float z, float r, float g, float b) {
+    glLightfv( ilight, GL_POSITION, MulArray3( x, y, z ) );
+    glLightfv( ilight, GL_AMBIENT, MulArray3( 0., 0., 0. ) );
+    glLightfv( ilight, GL_DIFFUSE, MulArray3( r, g, b ) );
+    glLightfv( ilight, GL_SPECULAR, MulArray3( r, g, b ) );
+    glLightf ( ilight, GL_CONSTANT_ATTENUATION, 1. );
+    glLightf ( ilight, GL_LINEAR_ATTENUATION, 0. );
+    glLightf ( ilight, GL_QUADRATIC_ATTENUATION, 0. );
+    glEnable( ilight );
+}
+
+// Set point light location and rgb
+void setPointLight( int ilight, float x, float y, float z, float r, float g, float b ) {
+    glLightfv( ilight, GL_POSITION, MulArray3( x, y, z ) );
+    glLightfv( ilight, GL_AMBIENT, MulArray3( 0., 0., 0. ) );
+    glLightfv( ilight, GL_DIFFUSE, MulArray3( r, g, b ) );
+    glLightfv( ilight, GL_SPECULAR, MulArray3( r, g, b ) );
+    glLightf ( ilight, GL_CONSTANT_ATTENUATION, 1. );
+    glLightf ( ilight, GL_LINEAR_ATTENUATION, 0. );
+    glLightf ( ilight, GL_QUADRATIC_ATTENUATION, 0. );
+    glEnable( ilight );
+}
+
+// Set spot light location and rgb
+void SetSpotLight( int ilight, float x, float y, float z, float xdir, float ydir, float zdir, float r, float g, float b ) {
+    glLightfv( ilight, GL_POSITION, MulArray3( x, y, z ) );
+    glLightfv( ilight, GL_SPOT_DIRECTION, MulArray3(xdir,ydir,zdir) );
+    glLightf( ilight, GL_SPOT_EXPONENT, 1. );
+    glLightf( ilight, GL_SPOT_CUTOFF, 45. );
+    glLightfv( ilight, GL_AMBIENT, MulArray3( 0., 0., 0. ) );
+    glLightfv( ilight, GL_DIFFUSE, MulArray3( r, g, b ) );
+    glLightfv( ilight, GL_SPECULAR, MulArray3( r, g, b ) );
+    glLightf ( ilight, GL_CONSTANT_ATTENUATION, 1. );
+    glLightf ( ilight, GL_LINEAR_ATTENUATION, 0. );
+    glLightf ( ilight, GL_QUADRATIC_ATTENUATION, 0. );
+    glEnable( ilight );
+}
 
 // main program:
 
@@ -392,6 +494,9 @@ Display( )
     
     glEnable( GL_NORMALIZE );
     
+    // Project 4 Lighting
+    glEnable(GL_LIGHTING);
+    setPointLight(GL_LIGHT0, 0, 2, 0, 0, 0, 1);
     
     // Project 4
     glEnable( GL_TEXTURE_2D );
@@ -399,7 +504,7 @@ Display( )
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
     
     // draw the current object:
     

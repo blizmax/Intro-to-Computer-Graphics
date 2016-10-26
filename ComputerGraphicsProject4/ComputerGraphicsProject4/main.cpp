@@ -4,6 +4,7 @@
 
 #define MS_IN_THE_ANIMATION_CYCLE   3000
 
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -190,8 +191,9 @@ bool    Frozen;                 // Project 4
 bool    Light0On;               // Project 4
 bool    Light1On;               // Project 4
 bool    Light2On;               // Project 4
+bool    spotLightOn;            // Project 4
 
-//float   White[] = {1.,1.,1.,1.};    // Project 4
+float   White[] = {1.,1.,1.,1.};    // Project 4
 
 
 // function prototypes:
@@ -249,15 +251,17 @@ float *MulArray3( float factor, float array0[3] ) {
 }
 
 // Set material characteristics
-void setConfigurations(int ilight, float x, float y, float z, float r, float g, float b) {
-    glLightfv( ilight, GL_POSITION, MulArray3( x, y, z ) );
-    glLightfv( ilight, GL_AMBIENT, MulArray3( 0., 0., 0. ) );
-    glLightfv( ilight, GL_DIFFUSE, MulArray3( r, g, b ) );
-    glLightfv( ilight, GL_SPECULAR, MulArray3( r, g, b ) );
-    glLightf ( ilight, GL_CONSTANT_ATTENUATION, 1. );
-    glLightf ( ilight, GL_LINEAR_ATTENUATION, 0. );
-    glLightf ( ilight, GL_QUADRATIC_ATTENUATION, 0. );
-    glEnable( ilight );
+void setConfigurations(float r, float g, float b, float shininess) {
+    glMaterialfv( GL_BACK, GL_EMISSION, MulArray3( 0., 0., 0. ) );
+    glMaterialfv( GL_BACK, GL_AMBIENT, MulArray3( .4f, White ) );
+    glMaterialfv( GL_BACK, GL_DIFFUSE, MulArray3( 1., White ) );
+    glMaterialfv( GL_BACK, GL_SPECULAR, MulArray3( 0., 0., 0. ) );
+    glMaterialf ( GL_BACK, GL_SHININESS, 2.f );
+    glMaterialfv( GL_FRONT, GL_EMISSION, MulArray3( 0., 0., 0. ) );
+    glMaterialfv( GL_FRONT, GL_AMBIENT, MulArray3( r, g, b ) );
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, MulArray3( r, g, b ) );
+    glMaterialfv( GL_FRONT, GL_SPECULAR, MulArray3( .8f, White ) );
+    glMaterialf ( GL_FRONT, GL_SHININESS, shininess );
 }
 
 // Set point light location and rgb
@@ -272,8 +276,8 @@ void setPointLight( int ilight, float x, float y, float z, float r, float g, flo
     glEnable( ilight );
 }
 
-// Set spot light location and rgb
-void SetSpotLight( int ilight, float x, float y, float z, float xdir, float ydir, float zdir, float r, float g, float b ) {
+// Set spot light location, direction, and rgb
+void setSpotLight( int ilight, float x, float y, float z, float xdir, float ydir, float zdir, float r, float g, float b ) {
     glLightfv( ilight, GL_POSITION, MulArray3( x, y, z ) );
     glLightfv( ilight, GL_SPOT_DIRECTION, MulArray3(xdir,ydir,zdir) );
     glLightf( ilight, GL_SPOT_EXPONENT, 1. );
@@ -453,11 +457,11 @@ Display( )
     
     // possibly draw the axes:
     
-    if( AxesOn != 0 )
-    {
-        glColor3fv( &Colors[WhichColor][0] );
-        glCallList( AxesList );
-    }
+//    if( AxesOn != 0 )
+//    {
+//        glColor3fv( &Colors[WhichColor][0] );
+//        glCallList( AxesList );
+//    }
     
     
     // since we are using glScalef( ), be sure normals get unitized:
@@ -467,6 +471,7 @@ Display( )
     // Project 4 Lighting
     glEnable(GL_LIGHTING);
     
+    // Point lights
     glPushMatrix();
     if (Light0On) {
         setPointLight(GL_LIGHT0, 1, 0, 0, 1, 0, 0);
@@ -500,7 +505,19 @@ Display( )
     }
     glPopMatrix();
     
-    
+    // Spotlight
+    glPushMatrix();
+    if (spotLightOn) {
+        glColor3f(255., 255., 255.);
+        glTranslatef(-1., 1., 0);
+        glRotatef((GLfloat)360. * Time, 0., 1., 0.);
+        glTranslatef(1., -1., 0);
+        setSpotLight(GL_LIGHT3, 0, 0, 0, 0, 0, -1, 1, 1, 1);
+        glutSolidSphere(0.1, 25, 25);
+    } else {
+        glDisable(GL_LIGHT3);
+    }
+    glPopMatrix();
     
     // Project 4
     glEnable( GL_TEXTURE_2D );
@@ -515,23 +532,31 @@ Display( )
     // Project 4
     
     glPushMatrix();
-        glColor3f(255., 255., 0.);
-        glTranslatef(0., 2, -2);
-        glutSolidTeapot(0.5);
+    // Flat
+    glShadeModel(GL_FLAT);
+    // Dull
+    setConfigurations(1, 1, 1, 1);
+    glColor3f(255., 255., 0.);
+    glTranslatef(0., 2, -2);
+    glutSolidTeapot(0.5);
     glPopMatrix();
 
     glPushMatrix();
-        glColor3f(0, 255., 255.);
-        glTranslatef(0., -1., 2.);
-        glutSolidTeapot(0.5);
+    // Smooth
+    glShadeModel(GL_SMOOTH);
+    glColor3f(0, 255., 255.);
+    glTranslatef(0., -1., 2.);
+    glutSolidTeapot(0.5);
     glPopMatrix();
     
     glPushMatrix();
-        glColor3f(255., 0, 255.);
-        glTranslatef(1., -1., 0);
-        glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-        glTranslatef(-1., 1., 0);
-        glutSolidTeapot(0.5);
+    glColor3f(255., 0, 255.);
+    // Shiny
+    setConfigurations(1, 1, 1, 8);
+    glTranslatef(1., -1., 0);
+    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
+    glTranslatef(-1., 1., 0);
+    glutSolidTeapot(0.5);
     glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
@@ -957,6 +982,15 @@ Keyboard( unsigned char c, int x, int y )
                 glEnable(GL_LIGHT2);
             } else {
                 glDisable(GL_LIGHT2);
+            }
+            break;
+            
+        case 's':
+            spotLightOn = !spotLightOn;
+            if (spotLightOn) {
+                glEnable(GL_LIGHT3);
+            } else {
+                glDisable(GL_LIGHT3);
             }
             break;
         

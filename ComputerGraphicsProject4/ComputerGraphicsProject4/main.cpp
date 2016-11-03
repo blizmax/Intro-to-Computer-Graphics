@@ -531,6 +531,7 @@ Display( )
     
     // Project 4
     
+    // Upper Teapot
     glPushMatrix();
     // Flat
     glShadeModel(GL_FLAT);
@@ -541,6 +542,7 @@ Display( )
     glutSolidTeapot(0.5);
     glPopMatrix();
 
+    // Lower Teapot
     glPushMatrix();
     // Smooth
     glShadeModel(GL_SMOOTH);
@@ -549,6 +551,7 @@ Display( )
     glutSolidTeapot(0.5);
     glPopMatrix();
     
+    // Rotating Teapot
     glPushMatrix();
     glColor3f(255., 0, 255.);
     // Shiny
@@ -583,7 +586,7 @@ Display( )
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     glColor3f( 1., 1., 1. );
-    DoRasterString( 5., 5., 0., "Text That Doesn't" );
+    DoRasterString( 5., 5., 0., "Brandon Lee" );
     
     
     // swap the double-buffered framebuffers:

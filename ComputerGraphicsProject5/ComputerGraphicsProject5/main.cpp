@@ -190,10 +190,9 @@ int		WhichProjection;		// ORTHO or PERSP
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 bool    Frozen;                 // Project 4
-bool    Light0On;               // Project 4
-bool    Light1On;               // Project 4
-bool    Light2On;               // Project 4
-bool    spotLightOn;            // Project 4
+bool    FragPattern;            // Project 5
+bool    NoPattern;              // Project 5
+bool    VertPattern;            // Project 5
 
 float   White[] = {1.,1.,1.,1.};    // Project 4
 
@@ -463,116 +462,48 @@ Display( )
     
     // possibly draw the axes:
     
-    //    if( AxesOn != 0 )
-    //    {
-    //        glColor3fv( &Colors[WhichColor][0] );
-    //        glCallList( AxesList );
-    //    }
+    if( AxesOn != 0 )
+    {
+        glColor3fv( &Colors[WhichColor][3] );
+        glCallList( AxesList );
+    }
     
     
     // since we are using glScalef( ), be sure normals get unitized:
     
     glEnable( GL_NORMALIZE );
     
-    // Project 4 Lighting
+    // Project 4
     glEnable(GL_LIGHTING);
+
+ 
+    float S0, T0;
+    float Ds, Dt;
+    float V0, V1, V2;
+    float ColorR, ColorG, ColorB;
+    float size;
     
-//    // Point lights
-//    glPushMatrix();
-//    if (Light0On) {
-//        setPointLight(GL_LIGHT0, 1, 0, 0, 1, 0, 0);
-//        glColor3f(1, 0, 0);
-//        glTranslatef(1, 0, 0);
-//        glutSolidSphere(0.1, 25, 25);
-//    } else {
-//        glDisable(GL_LIGHT0);
-//    }
-//    glPopMatrix();
-//    
-//    glPushMatrix();
-//    if (Light1On) {
-//        setPointLight(GL_LIGHT1, 0, 1, 0, 0, 1, 0);
-//        glColor3f(0, 1, 0);
-//        glTranslatef(0, 1, 0);
-//        glutSolidSphere(0.1, 25, 25);
-//    } else {
-//        glDisable(GL_LIGHT1);
-//    }
-//    glPopMatrix();
-//    
-//    glPushMatrix();
-//    if (Light2On) {
-//        setPointLight(GL_LIGHT2, 0, 0, 1, 0, 0, 1);
-//        glColor3f(0, 0, 1);
-//        glTranslatef(0, 0, 1);
-//        glutSolidSphere(0.1, 25, 25);
-//    } else {
-//        glDisable(GL_LIGHT2);
-//    }
-//    glPopMatrix();
-//    
-//    // Spotlight
-//    glPushMatrix();
-//    if (spotLightOn) {
-//        glColor3f(255., 255., 255.);
-//        glTranslatef(-1., 1., 0);
-//        glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-//        glTranslatef(1., -1., 0);
-//        setSpotLight(GL_LIGHT3, 0, 0, 0, 0, 0, -1, 1, 1, 1);
-//        glutSolidSphere(0.1, 25, 25);
-//    } else {
-//        glDisable(GL_LIGHT3);
-//    }
-//    glPopMatrix();
-//    
-//    // Project 4
-//    glEnable( GL_TEXTURE_2D );
-//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-//    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-//    
-//    // draw the current object:
-//    
-//    // Project 4
-//    
-//    // Upper Teapot
-//    glPushMatrix();
-//    // Flat
-//    glShadeModel(GL_FLAT);
-//    // Dull
-//    setConfigurations(1, 1, 1, 1);
-//    glColor3f(255., 255., 0.);
-//    glTranslatef(0., 2, -2);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
-//    
-//    // Lower Teapot
-//    glPushMatrix();
-//    // Smooth
-//    glShadeModel(GL_SMOOTH);
-//    glColor3f(0, 255., 255.);
-//    glTranslatef(0., -1., 2.);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
-//    
-//    // Rotating Teapot
-//    glPushMatrix();
-//    glColor3f(255., 0, 255.);
-//    // Shiny
-//    setConfigurations(1, 1, 1, 8);
-//    glTranslatef(1., -1., 0);
-//    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-//    glTranslatef(-1., 1., 0);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
+    S0 = 0.;
+    T0 = 0.;
+    ColorR = 1;
+    ColorG = 0;
+    ColorB = 1;
+    size = 1;
     
+    // Project 5
     Pattern->Use( );
     Pattern->SetUniformVariable( "uTime",  Time );
-//    glCallList( SphereList );
-    glCallList(AxesList);
+    Pattern->SetUniformVariable( "uS0", S0);
+    Pattern->SetUniformVariable( "uT0", T0 );
+    Pattern->SetUniformVariable( "uDs", Ds);
+    Pattern->SetUniformVariable( "uDt", Dt );
+    Pattern->SetUniformVariable( "uColor", ColorR, ColorG, ColorB );
+    Pattern->SetUniformVariable("uSize", size);
+    
+    glutSolidTeapot(1.0);
     Pattern->Use( 0 );
+    
+    setPointLight(GL_LIGHT0, 1, 1, 1, 1, 1, 1);
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -975,54 +906,36 @@ Keyboard( unsigned char c, int x, int y )
     
     switch( c )
     {
-            
+        
+        // Project 5
+        case 'b':
+        case 'B':
+            Pattern->Create( "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.vert",  "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.frag" );
+        break;
             // Project 4
         case 'f':
-        case 'F':
             Frozen = !Frozen;
             if (Frozen) {
                 glutIdleFunc(NULL);
             } else {
                 glutIdleFunc(Animate);
             }
-            break;
-            
-        case '0':
-            Light0On = !Light0On;
-            if (Light0On) {
-                glEnable(GL_LIGHT0);
+        break;
+        case 'F':
+            FragPattern = !FragPattern;
+            if (FragPattern) {
+                Pattern->Create( 0,  "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.frag" );
             } else {
-                glDisable(GL_LIGHT0);
+                Pattern->Create( "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.vert",  "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.frag" );
             }
-            break;
-            
-        case '1':
-            Light1On = !Light1On;
-            if (Light1On) {
-                glEnable(GL_LIGHT1);
-            } else {
-                glDisable(GL_LIGHT1);
-            }
-            break;
-            
-        case '2':
-            Light2On = !Light2On;
-            if (Light2On) {
-                glEnable(GL_LIGHT2);
-            } else {
-                glDisable(GL_LIGHT2);
-            }
-            break;
-            
-        case 's':
-            spotLightOn = !spotLightOn;
-            if (spotLightOn) {
-                glEnable(GL_LIGHT3);
-            } else {
-                glDisable(GL_LIGHT3);
-            }
-            break;
-            
+        break;
+        
+        case 'n':
+        case 'N':
+        NoPattern = !NoPattern;
+        Pattern->Create( 0, 0 );
+        break;
+        
         case 'o':
         case 'O':
             WhichProjection = ORTHO;
@@ -1032,7 +945,17 @@ Keyboard( unsigned char c, int x, int y )
         case 'P':
             WhichProjection = PERSP;
             break;
-            
+        
+        case 'v':
+        case 'V':
+        VertPattern = !VertPattern;
+        if (VertPattern) {
+            Pattern->Create( "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.vert",  0 );
+        } else {
+            Pattern->Create( "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.vert",  "/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsProject5/ComputerGraphicsProject5/pattern.frag" );
+        }
+        break;
+        
         case 'q':
         case 'Q':
         case ESCAPE:

@@ -225,8 +225,8 @@ void	HsvRgb( float[3], float [3] );
 // Project 6
 struct Point
 {
-    float x0, y0, z0;       // initial coordinates
-    float x,  y,  z;        // animated coordinates
+//    double x0, y0, z0;       // initial coordinates
+    double x,  y,  z;        // animated coordinates
 };
 
 struct Curve
@@ -236,7 +236,7 @@ struct Curve
 };
 
 void drawCurve(struct Curve *curve) {
-    glLineWidth(3.);
+    glLineWidth(13.);
     glColor3f( curve->r, curve->g, curve->b );
     struct Point p0 = curve->p0;
     struct Point p1 = curve->p1;
@@ -411,7 +411,7 @@ Display( )
     // set the eye position, look-at position, and up-vector:
     
     // Project 4
-    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
+    gluLookAt( 3., 3., 3.,     0., 0., 0.,     0., 1., 0. );
 //        gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     
     // rotate the scene:
@@ -457,53 +457,57 @@ Display( )
     
     glEnable( GL_NORMALIZE );
     
-    
+    // Project 6
     glPushMatrix();
-    struct Curve curve;
-    struct Point p0;
-    p0.x0 = 0.;
-    p0.y0 = 0.;
-    p0.z0 = 0.;
-    p0.x = 0.;
-    p0.y = 0.;
-    p0.z = 0.;
-    
-    struct Point p1;
-    p1.x0 = 3.;
-    p1.y0 = 0.;
-    p1.z0 = 3.;
-    p1.x = 3.;
-    p1.y = 0.;
-    p1.z = 3.;
-    
-    struct Point p2;
-    p2.x0 = 3.;
-    p2.y0 = 3.;
-    p2.z0 = 3.;
-    p2.x = 3.;
-    p2.y = 3.;
-    p2.z = 3.;
-    
-    struct Point p3;
-    p3.x0 = 3.;
-    p3.y0 = 6.;
-    p3.z0 = 0.;
-    p3.x = 3.;
-    p3.y = 6.;
-    p3.z = 0.;
-    
-    curve.p0 = p0;
-    curve.p1 = p1;
-    curve.p2 = p2;
-    
-    curve.r = 1.;
-    curve.g = 0.;
-    curve.b = 1.;
-    
-    drawCurve(&curve);
-    
+    int numcurves = 200;
+    for(int c = 0; c < numcurves; c++){
+        float angle = 360. * c / numcurves;
+        float move = (sin(Time*2*M_PI)+1)/2.5;
+        struct Curve curve;
+        
+        // Cool umbrella explosion thing
+//        struct Point p0 = {cos(angle/3)*move*2, 2.-move*2, sin(angle*3)*move*2};
+//        struct Point p1 = {cos(angle/2)*move*3, -3.-move*3, sin(angle/2)*move*3};
+//        struct Point p2 = {cos(angle/3)*move*2, -2.-move*2, sin(angle*3)*move*2};
+//        struct Point p3 = {cos(angle)*2, 1., sin(angle)*2};
+        
+        // Plant head
+        struct Point p0 = {0,0,0};
+        struct Point p1 = {cos(angle/3)*move*2, -2.-move*2, sin(angle*3)*move*2};
+        struct Point p2 = {cos(angle)*2, 1., sin(angle)*2};
+        struct Point p3 = {cos(angle)*2, 1., sin(angle)*2};
+        
+        curve.p0 = p0;
+        curve.p1 = p1;
+        curve.p2 = p2;
+        curve.p3 = p3;
+        curve.r = 1-p3.y/3;
+        curve.g = p3.y/3;
+        curve.b = 1-p3.y/3;
+        drawCurve(&curve);
+    }
     glPopMatrix();
     
+    // Plant stem
+    glPushMatrix();
+    numcurves = 5;
+    for(int c = 0; c < numcurves; c++){
+        float angle = 360. * c / numcurves;
+        struct Curve curve;
+        struct Point p0 = {0., 0., 0.};
+        struct Point p1 = {cos(angle)/5, 3., sin(angle)/5};
+        struct Point p2 = {sin(angle)/5, 3., cos(angle)/4};
+        struct Point p3 = {cos(angle)/5, 3.*(sin(angle)+1), sin(angle)/5};
+        curve.p0 = p0;
+        curve.p1 = p1;
+        curve.p2 = p2;
+        curve.p3 = p3;
+        curve.r = 0.2;
+        curve.g = 0.3;
+        curve.b = 0.;
+        drawCurve(&curve);
+    }
+    glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -1039,6 +1043,10 @@ Reset( )
     
     // Project 4
     Frozen = false;
+    
+    // Project 6
+    ControlPointsFlag = 0;
+    ControlLinesFlag = 0;
 }
 
 

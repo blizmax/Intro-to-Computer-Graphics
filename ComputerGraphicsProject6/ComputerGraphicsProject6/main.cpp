@@ -496,14 +496,14 @@ Display( )
         struct Curve curve;
         struct Point p0 = {0., 0., 0.};
         struct Point p1 = {cos(angle)/5, 3., sin(angle)/5};
-        struct Point p2 = {sin(angle)/5, 3., cos(angle)/4};
-        struct Point p3 = {cos(angle)/5, 3.*(sin(angle)+1), sin(angle)/5};
+        struct Point p2 = {sin(angle)/5, 3., cos(angle)/5};
+        struct Point p3 = {cos(angle)/5, 3., sin(angle)/5};
         curve.p0 = p0;
         curve.p1 = p1;
         curve.p2 = p2;
         curve.p3 = p3;
-        curve.r = 0.2;
-        curve.g = 0.3;
+        curve.r = 0.;
+        curve.g = 0.5;
         curve.b = 0.;
         drawCurve(&curve);
     }

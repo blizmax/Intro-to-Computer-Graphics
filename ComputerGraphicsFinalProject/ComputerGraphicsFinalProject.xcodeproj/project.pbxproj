@@ -10,6 +10,7 @@
 		1640ADB11DF11E9700302BD2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1640ADB01DF11E9700302BD2 /* main.cpp */; };
 		1640ADB91DF11EAA00302BD2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1640ADB81DF11EAA00302BD2 /* GLUT.framework */; };
 		1640ADBB1DF11EB300302BD2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1640ADBA1DF11EB300302BD2 /* OpenGL.framework */; };
+		1640ADBE1DF1242200302BD2 /* bmptotexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,8 @@
 		1640ADB01DF11E9700302BD2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1640ADB81DF11EAA00302BD2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		1640ADBA1DF11EB300302BD2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bmptotexture.cpp; sourceTree = "<group>"; };
+		1640ADBD1DF1242200302BD2 /* bmptotexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bmptotexture.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,8 @@
 			isa = PBXGroup;
 			children = (
 				1640ADB01DF11E9700302BD2 /* main.cpp */,
+				1640ADBD1DF1242200302BD2 /* bmptotexture.hpp */,
+				1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */,
 			);
 			path = ComputerGraphicsFinalProject;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1640ADBE1DF1242200302BD2 /* bmptotexture.cpp in Sources */,
 				1640ADB11DF11E9700302BD2 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

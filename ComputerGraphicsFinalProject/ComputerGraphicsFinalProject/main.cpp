@@ -204,6 +204,13 @@ bool    spotLightOn;            // Project 4
 float   White[] = {1.,1.,1.,1.};    // Project 4
 
 
+// Final Project
+int     view;
+unsigned char *texture;
+int texWidth, texHeight;
+
+#include "bmptotexture.hpp"
+
 // function prototypes:
 
 void	Animate( );
@@ -539,36 +546,36 @@ Display( )
     
     // Project 4
     
-    // Upper Teapot
-    glPushMatrix();
-    // Flat
-    glShadeModel(GL_FLAT);
-    // Dull
-    setConfigurations(1, 1, 1, 1);
-    glColor3f(255., 255., 0.);
-    glTranslatef(0., 2, -2);
-    glutSolidTeapot(0.5);
-    glPopMatrix();
-    
-    // Lower Teapot
-    glPushMatrix();
-    // Smooth
-    glShadeModel(GL_SMOOTH);
-    glColor3f(0, 255., 255.);
-    glTranslatef(0., -1., 2.);
-    glutSolidTeapot(0.5);
-    glPopMatrix();
-    
-    // Rotating Teapot
-    glPushMatrix();
-    glColor3f(255., 0, 255.);
-    // Shiny
-    setConfigurations(1, 1, 1, 8);
-    glTranslatef(1., -1., 0);
-    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-    glTranslatef(-1., 1., 0);
-    glutSolidTeapot(0.5);
-    glPopMatrix();
+//    // Upper Teapot
+//    glPushMatrix();
+//    // Flat
+//    glShadeModel(GL_FLAT);
+//    // Dull
+//    setConfigurations(1, 1, 1, 1);
+//    glColor3f(255., 255., 0.);
+//    glTranslatef(0., 2, -2);
+//    glutSolidTeapot(0.5);
+//    glPopMatrix();
+//    
+//    // Lower Teapot
+//    glPushMatrix();
+//    // Smooth
+//    glShadeModel(GL_SMOOTH);
+//    glColor3f(0, 255., 255.);
+//    glTranslatef(0., -1., 2.);
+//    glutSolidTeapot(0.5);
+//    glPopMatrix();
+//    
+//    // Rotating Teapot
+//    glPushMatrix();
+//    glColor3f(255., 0, 255.);
+//    // Shiny
+//    setConfigurations(1, 1, 1, 8);
+//    glTranslatef(1., -1., 0);
+//    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
+//    glTranslatef(-1., 1., 0);
+//    glutSolidTeapot(0.5);
+//    glPopMatrix();
     
     glPushMatrix();
     glutSolidSphere(0.1, 100, 100);
@@ -868,6 +875,8 @@ InitGraphics( )
         fprintf( stderr, "GLEW initialized OK\n" );
     fprintf( stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
+    
+    texture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/sunmap.bmp", &texWidth, &texHeight);
     
 }
 

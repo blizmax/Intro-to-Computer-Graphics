@@ -11,6 +11,7 @@
 		1640ADB91DF11EAA00302BD2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1640ADB81DF11EAA00302BD2 /* GLUT.framework */; };
 		1640ADBB1DF11EB300302BD2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1640ADBA1DF11EB300302BD2 /* OpenGL.framework */; };
 		1640ADBE1DF1242200302BD2 /* bmptotexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */; };
+		1640ADED1DF134EB00302BD2 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1640ADEB1DF134EB00302BD2 /* sphere.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,18 @@
 		1640ADBA1DF11EB300302BD2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bmptotexture.cpp; sourceTree = "<group>"; };
 		1640ADBD1DF1242200302BD2 /* bmptotexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bmptotexture.hpp; sourceTree = "<group>"; };
+		1640ADE11DF1311800302BD2 /* sunmap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = sunmap.bmp; sourceTree = "<group>"; };
+		1640ADE21DF1315300302BD2 /* earthmap1k.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = earthmap1k.bmp; sourceTree = "<group>"; };
+		1640ADE31DF1315300302BD2 /* jupitermap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = jupitermap.bmp; sourceTree = "<group>"; };
+		1640ADE41DF1315300302BD2 /* mars_1k_color.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = mars_1k_color.bmp; sourceTree = "<group>"; };
+		1640ADE51DF1315300302BD2 /* mercurymap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = mercurymap.bmp; sourceTree = "<group>"; };
+		1640ADE61DF1315300302BD2 /* neptunemap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = neptunemap.bmp; sourceTree = "<group>"; };
+		1640ADE71DF1315300302BD2 /* plutomap1k.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = plutomap1k.bmp; sourceTree = "<group>"; };
+		1640ADE81DF1315300302BD2 /* saturnmap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = saturnmap.bmp; sourceTree = "<group>"; };
+		1640ADE91DF1315300302BD2 /* uranusmap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = uranusmap.bmp; sourceTree = "<group>"; };
+		1640ADEA1DF1315300302BD2 /* venusmap.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = venusmap.bmp; sourceTree = "<group>"; };
+		1640ADEB1DF134EB00302BD2 /* sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
+		1640ADEC1DF134EB00302BD2 /* sphere.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,9 +80,12 @@
 		1640ADAF1DF11E9700302BD2 /* ComputerGraphicsFinalProject */ = {
 			isa = PBXGroup;
 			children = (
+				1640ADC91DF12B2100302BD2 /* Textures */,
 				1640ADB01DF11E9700302BD2 /* main.cpp */,
 				1640ADBD1DF1242200302BD2 /* bmptotexture.hpp */,
 				1640ADBC1DF1242200302BD2 /* bmptotexture.cpp */,
+				1640ADEC1DF134EB00302BD2 /* sphere.hpp */,
+				1640ADEB1DF134EB00302BD2 /* sphere.cpp */,
 			);
 			path = ComputerGraphicsFinalProject;
 			sourceTree = "<group>";
@@ -81,6 +97,23 @@
 				1640ADB81DF11EAA00302BD2 /* GLUT.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1640ADC91DF12B2100302BD2 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				1640ADE21DF1315300302BD2 /* earthmap1k.bmp */,
+				1640ADE31DF1315300302BD2 /* jupitermap.bmp */,
+				1640ADE41DF1315300302BD2 /* mars_1k_color.bmp */,
+				1640ADE51DF1315300302BD2 /* mercurymap.bmp */,
+				1640ADE61DF1315300302BD2 /* neptunemap.bmp */,
+				1640ADE71DF1315300302BD2 /* plutomap1k.bmp */,
+				1640ADE81DF1315300302BD2 /* saturnmap.bmp */,
+				1640ADE91DF1315300302BD2 /* uranusmap.bmp */,
+				1640ADEA1DF1315300302BD2 /* venusmap.bmp */,
+				1640ADE11DF1311800302BD2 /* sunmap.bmp */,
+			);
+			name = Textures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1640ADED1DF134EB00302BD2 /* sphere.cpp in Sources */,
 				1640ADBE1DF1242200302BD2 /* bmptotexture.cpp in Sources */,
 				1640ADB11DF11E9700302BD2 /* main.cpp in Sources */,
 			);

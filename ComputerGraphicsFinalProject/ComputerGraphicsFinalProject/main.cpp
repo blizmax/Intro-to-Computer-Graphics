@@ -205,10 +205,11 @@ float   White[] = {1.,1.,1.,1.};    // Project 4
 
 
 // Final Project
-int     view;
-unsigned char *texture;
-int texWidth, texHeight;
+int     sunView;
+unsigned char *sunTexture;
+int sunWidth, sunHeight;
 
+#include "sphere.hpp"
 #include "bmptotexture.hpp"
 
 // function prototypes:
@@ -483,8 +484,16 @@ Display( )
     
     glEnable( GL_NORMALIZE );
     
+    // Final Project - Enable textures
+    glEnable(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    
     // Project 4 Lighting
-    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHTING); //FIXME REENABLE
     
     // Point lights
     glPushMatrix();
@@ -534,14 +543,6 @@ Display( )
     }
     glPopMatrix();
     
-    // Project 4
-    glEnable( GL_TEXTURE_2D );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-    
     // draw the current object:
     
     // Project 4
@@ -578,7 +579,11 @@ Display( )
 //    glPopMatrix();
     
     glPushMatrix();
-    glutSolidSphere(0.1, 100, 100);
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, sunWidth, sunHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, sunTexture);
+    
+    MjbSphere( 1, 50, 50, sunView, 0);
     glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
@@ -876,7 +881,7 @@ InitGraphics( )
     fprintf( stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
     
-    texture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/sunmap.bmp", &texWidth, &texHeight);
+    sunTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/sunmap.bmp", &sunWidth, &sunHeight);
     
 }
 

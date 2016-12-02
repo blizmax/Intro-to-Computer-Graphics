@@ -200,6 +200,7 @@ bool    Light0On;               // Project 4
 bool    Light1On;               // Project 4
 bool    Light2On;               // Project 4
 bool    spotLightOn;            // Project 4
+bool    viewToggleState;        // Final Project
 
 float   White[] = {1.,1.,1.,1.};    // Project 4
 
@@ -473,10 +474,15 @@ Display( )
     
     // set the eye position, look-at position, and up-vector:
     
-    // Project 4
-//    gluLookAt( 5., 5., 5.,     0., 0., 0.,     0., 1., 0. );
-    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
-    //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
+    // Final Project - Toggle views
+    if (viewToggleState) {
+        // Zoomed out view
+        gluLookAt( 5., 5., 5.,     0., 0., 0.,     0., 1., 0. );
+    } else {
+        // Zoomed in view
+        gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
+    }
+    
     
     // rotate the scene:
     
@@ -1176,6 +1182,9 @@ Keyboard( unsigned char c, int x, int y )
             }
             break;
             
+        case 'v':
+            viewToggleState = !viewToggleState;
+            break;
         case 'o':
         case 'O':
             WhichProjection = ORTHO;

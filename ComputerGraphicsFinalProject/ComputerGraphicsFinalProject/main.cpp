@@ -474,8 +474,8 @@ Display( )
     // set the eye position, look-at position, and up-vector:
     
     // Project 4
-    gluLookAt( 5., 5., 5.,     0., 0., 0.,     0., 1., 0. );
-//    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
+//    gluLookAt( 5., 5., 5.,     0., 0., 0.,     0., 1., 0. );
+    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
     //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     
     // rotate the scene:
@@ -619,6 +619,7 @@ Display( )
     
     // Sun
     glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, sunWidth, sunHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, sunTexture);
     MjbSphere( 0.5, 50, 50, sunView, 0);
@@ -626,10 +627,13 @@ Display( )
     
     // Mercury
     
-    // Rotate
+    // Orbit
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 160, 0., 1., 0.);
     glTranslatef(-0.7, 0, 0);
+    
+    // Rotate
+    glRotatef((GLfloat)360. * Time * 1.69, 0., 1., 0.);
     // Render texture
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, mercuryWidth, mercuryHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, mercuryTexture);
@@ -640,6 +644,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 117, 0., 1., 0.);
     glTranslatef(-1.2, 0, 0);
+    glRotatef((GLfloat)360. * Time * 0.41, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, venusWidth, venusHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, venusTexture);
     MjbSphere( 0.2, 50, 50, venusView, 0);
@@ -649,6 +654,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
     glTranslatef(-2, 0, 0);
+    glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, earthWidth, earthHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, earthTexture);
     MjbSphere( 0.25, 50, 50, earthView, 0);
@@ -658,6 +664,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 80, 0., 1., 0.);
     glTranslatef(-3, 0, 0);
+    glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, marsWidth, marsHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, marsTexture);
     MjbSphere( 0.2, 50, 50, marsView, 0);
@@ -667,6 +674,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 43, 0., 1., 0.);
     glTranslatef(-4.3, 0, 0);
+    glRotatef((GLfloat)360. * Time * 395, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, jupiterWidth, jupiterHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, jupiterTexture);
     MjbSphere( 0.5, 50, 50, jupiterView, 0);
@@ -676,6 +684,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 32, 0., 1., 0.);
     glTranslatef(-5.5, 0, 0);
+    glRotatef((GLfloat)360. * Time * 240, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, saturnWidth, saturnHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, saturnTexture);
     MjbSphere( 0.5, 50, 50, saturnView, 0);
@@ -685,6 +694,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 22, 0., 1., 0.);
     glTranslatef(-6.5, 0, 0);
+    glRotatef((GLfloat)360. * Time * 70, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, uranusWidth, uranusHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, uranusTexture);
     MjbSphere( 0.3, 50, 50, uranusView, 0);
@@ -694,6 +704,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 18, 0., 1., 0.);
     glTranslatef(-7.5, 0, 0);
+    glRotatef((GLfloat)360. * Time * 150, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, neptuneWidth, neptuneHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, neptuneTexture);
     MjbSphere( 0.23, 50, 50, neptuneView, 0);
@@ -703,6 +714,7 @@ Display( )
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 15, 0., 1., 0.);
     glTranslatef(-8.5, 0, 0);
+    glRotatef((GLfloat)360. * Time * 0.06, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, plutoWidth, plutoHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, plutoTexture);
     MjbSphere( 0.09, 50, 50, plutoView, 0);

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define MS_IN_THE_ANIMATION_CYCLE   3000
+#define MS_IN_THE_ANIMATION_CYCLE   300000
 
 
 #define _USE_MATH_DEFINES
@@ -474,8 +474,8 @@ Display( )
     // set the eye position, look-at position, and up-vector:
     
     // Project 4
-//    gluLookAt( 10., 10., 10.,     0., 0., 0.,     0., 1., 0. );
-    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
+    gluLookAt( 5., 5., 5.,     0., 0., 0.,     0., 1., 0. );
+//    gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
     //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     
     // rotate the scene:
@@ -510,11 +510,11 @@ Display( )
     
     // possibly draw the axes:
     
-    //    if( AxesOn != 0 )
-    //    {
-    //        glColor3fv( &Colors[WhichColor][0] );
-    //        glCallList( AxesList );
-    //    }
+    if( AxesOn != 0 )
+    {
+        glColor3fv( &Colors[WhichColor][0] );
+        glCallList( AxesList );
+    }
     
     
     // since we are using glScalef( ), be sure normals get unitized:
@@ -621,33 +621,92 @@ Display( )
     glPushMatrix();
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, sunWidth, sunHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, sunTexture);
-    MjbSphere( 0.75, 50, 50, sunView, 0);
+    MjbSphere( 0.5, 50, 50, sunView, 0);
     glPopMatrix();
     
     // Mercury
+    
+    // Rotate
     glPushMatrix();
-    glTranslatef(0.25, 0.5, 0.5);
+    glRotatef((GLfloat)360. * Time * 160, 0., 1., 0.);
+    glTranslatef(-0.7, 0, 0);
+    // Render texture
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, mercuryWidth, mercuryHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, mercuryTexture);
-    MjbSphere( 0.25, 50, 50, mercuryView, 0);
+    MjbSphere( 0.1, 50, 50, mercuryView, 0);
     glPopMatrix();
     
     // Venus
     glPushMatrix();
-    glTranslatef(1, 1, 1);
+    glRotatef((GLfloat)360. * Time * 117, 0., 1., 0.);
+    glTranslatef(-1.2, 0, 0);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, mercuryWidth, mercuryHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, venusTexture);
-    MjbSphere( 0.25, 50, 50, mercuryView, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, venusWidth, venusHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, venusTexture);
+    MjbSphere( 0.2, 50, 50, venusView, 0);
     glPopMatrix();
     
     // Earth
     glPushMatrix();
-    glTranslatef(1.5, 1.5, 1.5);
+    glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
+    glTranslatef(-2, 0, 0);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, earthWidth, earthHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, earthTexture);
     MjbSphere( 0.25, 50, 50, earthView, 0);
     glPopMatrix();
-
+    
+    // Mars
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 80, 0., 1., 0.);
+    glTranslatef(-3, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, marsWidth, marsHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, marsTexture);
+    MjbSphere( 0.2, 50, 50, marsView, 0);
+    glPopMatrix();
+    
+    // Jupiter
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 43, 0., 1., 0.);
+    glTranslatef(-4.3, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, jupiterWidth, jupiterHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, jupiterTexture);
+    MjbSphere( 0.5, 50, 50, jupiterView, 0);
+    glPopMatrix();
+    
+    // Saturn
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 32, 0., 1., 0.);
+    glTranslatef(-5.5, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, saturnWidth, saturnHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, saturnTexture);
+    MjbSphere( 0.5, 50, 50, saturnView, 0);
+    glPopMatrix();
+    
+    // Uranus
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 22, 0., 1., 0.);
+    glTranslatef(-6.5, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, uranusWidth, uranusHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, uranusTexture);
+    MjbSphere( 0.3, 50, 50, uranusView, 0);
+    glPopMatrix();
+    
+    // Neptune
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 18, 0., 1., 0.);
+    glTranslatef(-7.5, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, neptuneWidth, neptuneHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, neptuneTexture);
+    MjbSphere( 0.23, 50, 50, neptuneView, 0);
+    glPopMatrix();
+    
+    // Pluto
+    glPushMatrix();
+    glRotatef((GLfloat)360. * Time * 15, 0., 1., 0.);
+    glTranslatef(-8.5, 0, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, plutoWidth, plutoHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, plutoTexture);
+    MjbSphere( 0.09, 50, 50, plutoView, 0);
+    glPopMatrix();
     
     // draw some gratuitous text that just rotates on top of the scene:
     

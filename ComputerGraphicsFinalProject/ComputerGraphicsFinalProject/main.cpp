@@ -204,10 +204,46 @@ bool    spotLightOn;            // Project 4
 float   White[] = {1.,1.,1.,1.};    // Project 4
 
 
-// Final Project
+// Final Project Planet Textures
 int     sunView;
 unsigned char *sunTexture;
 int sunWidth, sunHeight;
+
+int     mercuryView;
+unsigned char *mercuryTexture;
+int mercuryWidth, mercuryHeight;
+
+int     venusView;
+unsigned char *venusTexture;
+int venusWidth, venusHeight;
+
+int     earthView;
+unsigned char *earthTexture;
+int earthWidth, earthHeight;
+
+int     marsView;
+unsigned char *marsTexture;
+int marsWidth, marsHeight;
+
+int     jupiterView;
+unsigned char *jupiterTexture;
+int jupiterWidth, jupiterHeight;
+
+int     saturnView;
+unsigned char *saturnTexture;
+int saturnWidth, saturnHeight;
+
+int     uranusView;
+unsigned char *uranusTexture;
+int uranusWidth, uranusHeight;
+
+int     neptuneView;
+unsigned char *neptuneTexture;
+int neptuneWidth, neptuneHeight;
+
+int     plutoView;
+unsigned char *plutoTexture;
+int plutoWidth, plutoHeight;
 
 #include "sphere.hpp"
 #include "bmptotexture.hpp"
@@ -438,6 +474,7 @@ Display( )
     // set the eye position, look-at position, and up-vector:
     
     // Project 4
+//    gluLookAt( 10., 10., 10.,     0., 0., 0.,     0., 1., 0. );
     gluLookAt( 2., 2., 2.,     0., 0., 0.,     0., 1., 0. );
     //    gluLookAt( 0., 0., 3.,     0., 0., 0.,     0., 1., 0. );
     
@@ -493,7 +530,7 @@ Display( )
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
     // Project 4 Lighting
-//    glEnable(GL_LIGHTING); //FIXME REENABLE
+//    glEnable(GL_LIGHTING); //FIXME RE-ENABLE
     
     // Point lights
     glPushMatrix();
@@ -578,13 +615,39 @@ Display( )
 //    glutSolidTeapot(0.5);
 //    glPopMatrix();
     
-    glPushMatrix();
+    // Final Project - Display planets
     
+    // Sun
+    glPushMatrix();
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, sunWidth, sunHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, sunTexture);
-    
-    MjbSphere( 1, 50, 50, sunView, 0);
+    MjbSphere( 0.75, 50, 50, sunView, 0);
     glPopMatrix();
+    
+    // Mercury
+    glPushMatrix();
+    glTranslatef(0.25, 0.5, 0.5);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, mercuryWidth, mercuryHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, mercuryTexture);
+    MjbSphere( 0.25, 50, 50, mercuryView, 0);
+    glPopMatrix();
+    
+    // Venus
+    glPushMatrix();
+    glTranslatef(1, 1, 1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, mercuryWidth, mercuryHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, venusTexture);
+    MjbSphere( 0.25, 50, 50, mercuryView, 0);
+    glPopMatrix();
+    
+    // Earth
+    glPushMatrix();
+    glTranslatef(1.5, 1.5, 1.5);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, earthWidth, earthHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, earthTexture);
+    MjbSphere( 0.25, 50, 50, earthView, 0);
+    glPopMatrix();
+
     
     // draw some gratuitous text that just rotates on top of the scene:
     
@@ -881,7 +944,26 @@ InitGraphics( )
     fprintf( stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
     
+    // Final Project - Binding Textures
     sunTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/sunmap.bmp", &sunWidth, &sunHeight);
+    
+    mercuryTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/mercurymap.bmp", &mercuryWidth, &mercuryHeight);
+    
+    venusTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/venusmap.bmp", &venusWidth, &venusHeight);
+    
+    earthTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/earthmap1k.bmp", &earthWidth, &earthHeight);
+    
+    marsTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/mars_1k_color.bmp", &marsWidth, &marsHeight);
+    
+    jupiterTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/jupitermap.bmp", &jupiterWidth, &jupiterHeight);
+    
+    saturnTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/saturnmap.bmp", &saturnWidth, &saturnHeight);
+    
+    uranusTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/uranusmap.bmp", &uranusWidth, &uranusHeight);
+    
+    neptuneTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/neptunemap.bmp", &neptuneWidth, &neptuneHeight);
+    
+    plutoTexture = BmpToTexture("/Users/BrandonLee/Documents/ComputerGraphics/ComputerGraphicsFinalProject/ComputerGraphicsFinalProject/plutomap1k.bmp", &plutoWidth, &plutoHeight);
     
 }
 

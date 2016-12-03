@@ -440,7 +440,7 @@ Display( )
     
     // specify shading to be flat:
     
-    glShadeModel( GL_FLAT );
+    glShadeModel( GL_SMOOTH );
     
     
     // set the viewport to a square centered in the window:
@@ -533,16 +533,14 @@ Display( )
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
     // Project 4 Lighting
-//    glEnable(GL_LIGHTING); //FIXME RE-ENABLE
+    glEnable(GL_LIGHTING);
     
     // Point lights
     glPushMatrix();
     if (Light0On) {
-        setPointLight(GL_LIGHT0, 1, 0, 0, 1, 0, 0);
-        glColor3f(1, 0, 0);
+        setPointLight(GL_LIGHT0, 1, 0, 0, 1, 1, 1);
         glTranslatef(1, 0, 0);
         glutSolidSphere(0.1, 25, 25);
     } else {
@@ -552,8 +550,7 @@ Display( )
     
     glPushMatrix();
     if (Light1On) {
-        setPointLight(GL_LIGHT1, 0, 1, 0, 0, 1, 0);
-        glColor3f(0, 1, 0);
+        setPointLight(GL_LIGHT1, 0, 1, 0, 1, 1, 1);
         glTranslatef(0, 1, 0);
         glutSolidSphere(0.1, 25, 25);
     } else {
@@ -563,8 +560,7 @@ Display( )
     
     glPushMatrix();
     if (Light2On) {
-        setPointLight(GL_LIGHT2, 0, 0, 1, 0, 0, 1);
-        glColor3f(0, 0, 1);
+        setPointLight(GL_LIGHT2, 0, 0, 1, 1, 1, 1);
         glTranslatef(0, 0, 1);
         glutSolidSphere(0.1, 25, 25);
     } else {
@@ -572,6 +568,10 @@ Display( )
     }
     glPopMatrix();
     
+//    glPushMatrix();
+//    setPointLight(GL_LIGHT0, 1, 0, 0, 1, 1, 1);
+//    glPopMatrix();
+//    
     // Spotlight
     glPushMatrix();
     if (spotLightOn) {
@@ -587,39 +587,6 @@ Display( )
     glPopMatrix();
     
     // draw the current object:
-    
-    // Project 4
-    
-//    // Upper Teapot
-//    glPushMatrix();
-//    // Flat
-//    glShadeModel(GL_FLAT);
-//    // Dull
-//    setConfigurations(1, 1, 1, 1);
-//    glColor3f(255., 255., 0.);
-//    glTranslatef(0., 2, -2);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
-//    
-//    // Lower Teapot
-//    glPushMatrix();
-//    // Smooth
-//    glShadeModel(GL_SMOOTH);
-//    glColor3f(0, 255., 255.);
-//    glTranslatef(0., -1., 2.);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
-//    
-//    // Rotating Teapot
-//    glPushMatrix();
-//    glColor3f(255., 0, 255.);
-//    // Shiny
-//    setConfigurations(1, 1, 1, 8);
-//    glTranslatef(1., -1., 0);
-//    glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-//    glTranslatef(-1., 1., 0);
-//    glutSolidTeapot(0.5);
-//    glPopMatrix();
     
     // Final Project - Display planets
     

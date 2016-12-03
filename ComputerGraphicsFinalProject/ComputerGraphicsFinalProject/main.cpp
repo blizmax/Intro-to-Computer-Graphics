@@ -196,10 +196,6 @@ int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 float   Time;                   // Project 4
 bool    Frozen;                 // Project 4
-bool    Light0On;               // Project 4
-bool    Light1On;               // Project 4
-bool    Light2On;               // Project 4
-bool    spotLightOn;            // Project 4
 bool    viewToggleState;        // Final Project
 
 float   White[] = {1.,1.,1.,1.};    // Project 4
@@ -516,7 +512,7 @@ Display( )
     
     // possibly draw the axes:
     
-    if( AxesOn != 0 )
+    if( AxesOn != 1 )
     {
         glColor3fv( &Colors[WhichColor][0] );
         glCallList( AxesList );
@@ -534,63 +530,9 @@ Display( )
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
-    // Project 4 Lighting
-    glEnable(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
     
-    // Point lights
-    glPushMatrix();
-    if (Light0On) {
-        setPointLight(GL_LIGHT0, 1, 0, 0, 1, 1, 1);
-        glTranslatef(1, 0, 0);
-        glutSolidSphere(0.1, 25, 25);
-    } else {
-        glDisable(GL_LIGHT0);
-    }
-    glPopMatrix();
-    
-    glPushMatrix();
-    if (Light1On) {
-        setPointLight(GL_LIGHT1, 0, 1, 0, 1, 1, 1);
-        glTranslatef(0, 1, 0);
-        glutSolidSphere(0.1, 25, 25);
-    } else {
-        glDisable(GL_LIGHT1);
-    }
-    glPopMatrix();
-    
-    glPushMatrix();
-    if (Light2On) {
-        setPointLight(GL_LIGHT2, 0, 0, 1, 1, 1, 1);
-        glTranslatef(0, 0, 1);
-        glutSolidSphere(0.1, 25, 25);
-    } else {
-        glDisable(GL_LIGHT2);
-    }
-    glPopMatrix();
-    
-//    glPushMatrix();
-//    setPointLight(GL_LIGHT0, 1, 0, 0, 1, 1, 1);
-//    glPopMatrix();
-//    
-    // Spotlight
-    glPushMatrix();
-    if (spotLightOn) {
-        glColor3f(255., 255., 255.);
-        glTranslatef(-1., 1., 0);
-        glRotatef((GLfloat)360. * Time, 0., 1., 0.);
-        glTranslatef(1., -1., 0);
-        setSpotLight(GL_LIGHT3, 0, 0, 0, 0, 0, -1, 1, 1, 1);
-        glutSolidSphere(0.1, 25, 25);
-    } else {
-        glDisable(GL_LIGHT3);
-    }
-    glPopMatrix();
-    
-    // draw the current object:
-    
-    // Final Project - Display planets
-    
-    // Sun
+    // Sun (Draw here to not include in lighting effects)
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 100, 0., 1., 0.);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -598,8 +540,24 @@ Display( )
     MjbSphere( 0.5, 50, 50, sunView, 0);
     glPopMatrix();
     
-    // Mercury
+    // Final Project
+    glEnable(GL_LIGHTING);
     
+    glPushMatrix();
+    setPointLight(GL_LIGHT0, 0.6, 0, 0, 1, 1, 1);
+    setPointLight(GL_LIGHT1, -0.6, 0, 0, 1, 1, 1);
+    setPointLight(GL_LIGHT2, 0, 0.6, 0, 1, 1, 1);
+    setPointLight(GL_LIGHT3, 0, -0.6, 0, 1, 1, 1);
+    setPointLight(GL_LIGHT4, 0, 0, 0.6, 1, 1, 1);
+    setPointLight(GL_LIGHT5, 0, 0, -0.6, 1, 1, 1);
+    glPopMatrix();
+
+    
+    // draw the current object:
+    
+    // Final Project - Display planets
+    
+    // Mercury
     // Orbit
     glPushMatrix();
     glRotatef((GLfloat)360. * Time * 160, 0., 1., 0.);
@@ -1113,43 +1071,7 @@ Keyboard( unsigned char c, int x, int y )
             }
             break;
             
-        case '0':
-            Light0On = !Light0On;
-            if (Light0On) {
-                glEnable(GL_LIGHT0);
-            } else {
-                glDisable(GL_LIGHT0);
-            }
-            break;
-            
-        case '1':
-            Light1On = !Light1On;
-            if (Light1On) {
-                glEnable(GL_LIGHT1);
-            } else {
-                glDisable(GL_LIGHT1);
-            }
-            break;
-            
-        case '2':
-            Light2On = !Light2On;
-            if (Light2On) {
-                glEnable(GL_LIGHT2);
-            } else {
-                glDisable(GL_LIGHT2);
-            }
-            break;
-            
-        case 's':
-            spotLightOn = !spotLightOn;
-            if (spotLightOn) {
-                glEnable(GL_LIGHT3);
-            } else {
-                glDisable(GL_LIGHT3);
-            }
-            break;
-            
-        case 'v':
+        case 't':
             viewToggleState = !viewToggleState;
             break;
         case 'o':
